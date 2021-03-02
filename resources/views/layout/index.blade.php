@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -27,9 +26,7 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
 </head>
-
 <body>
 
   <!-- ======= Header ======= -->
@@ -75,7 +72,7 @@
                 <h3 class="animate__animated animate__fadeInUp" style="color: white">Menyediakan berbagai macam kain batik khas paoman Indramayu.</h3>
                 <h3 class="animate__animated animate__fadeInUp" style="color: white">Batik dengan kualitas terbaik</h3>
                 <div> <br> <br>
-                  <a href="#menu" class="btn-menu animate__animated animate__fadeInUp scrollto">Produk</a>
+                  <a href="#jenis" class="btn-menu animate__animated animate__fadeInUp scrollto">Produk</a>
                   <a href="#book-a-table" class="btn-book animate__animated animate__fadeInUp scrollto"><i class="fas fa-phone-alt"></i> Hubungi Kami</a>
                 </div>
               </div>
@@ -107,7 +104,7 @@
                     <h3 class="animate__animated animate__fadeInUp" style="color: white">Menyediakan berbagai macam kain batik khas paoman Indramayu.</h3>
                     <h3 class="animate__animated animate__fadeInUp" style="color: white">Batik dengan kualitas terbaik</h3>
                     <div> <br> <br>
-                      <a href="#menu" class="btn-menu animate__animated animate__fadeInUp scrollto">Produk</a>
+                      <a href="#" class="btn-menu animate__animated animate__fadeInUp scrollto">Produk</a>
                       <a href="#book-a-table" class="btn-book animate__animated animate__fadeInUp scrollto"><i class="fas fa-phone-alt"></i> Hubungi Kami</a>
                     </div>
                   </div>

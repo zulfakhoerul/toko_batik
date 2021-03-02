@@ -14,17 +14,24 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('layout.index');
 });
 
 Route::get('/belanja', function () {
-    return view('belanja');
+    return view('layout.belanja');
 });
 
 Route::get('/login', function () {
-    return view('login');
+    return view('layout.login');
 });
 
 Route::get('/daftar', function () {
-    return view('daftar');
+    return view('layout.daftar');
+});
+
+Route::group(['prefix' => 'admin'], function()
+{
+    Route::get('dashboard', function () {
+        return view('admin.dashboard');
+    });
 });
