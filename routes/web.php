@@ -31,7 +31,10 @@ Route::get('/daftar', function () {
 
 Route::group(['prefix' => 'admin'], function()
 {
-    Route::get('dashboard', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::get('/data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
+    Route::get('/data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');
+    Route::get('/data-penjualan', function () {
+        return view('admin.penjualan');
+    })->name('dataPenjualan');
 });

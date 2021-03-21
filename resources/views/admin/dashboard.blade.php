@@ -14,7 +14,6 @@
         </div>
 
         <div class="row mb-3">
-            <!-- Earnings (Annual) Card Example -->
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
@@ -23,11 +22,13 @@
                                 <div class="text-xs font-weight-bold text-uppercase mb-1">
                                     Pembeli
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{$data['pembeli']}}
+                                </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>
                             <div class="col-auto">
-                                <i class="fas fa-clinic-medical fa-2x"></i>
+                                <i class="fa fa-user fa-2x"></i>
                             </div>
                         </div>
                     </div>
@@ -42,11 +43,13 @@
                                 <div class="text-xs font-weight-bold text-uppercase mb-1">
                                     Transaksi
                                 </div>
-                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                    {{$data['transaksi']}}
+                                </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>
                             <div class="col-auto">
-                                <i class="fa fa-users fa-2x" aria-hidden="true"></i>
+                                <i class="fas fa-fw fa-exchange-alt fa-2x" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -59,13 +62,15 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
                                 <div class="text-xs font-weight-bold text-uppercase mb-1">
-                                    Penjualan
+                                    Pendapatan
                                 </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">a</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @currency($data['pendapatan'])
+                                </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>
                             <div class="col-auto">
-                                <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                                <i class="fas fa-fw fa-dollar-sign fa-2x" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>

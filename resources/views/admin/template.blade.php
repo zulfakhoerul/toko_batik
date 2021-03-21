@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  {{-- <link href="img/logo/IconLogo.png" rel="icon"> --}}
   <title>@yield('title')</title>
   <link href="{{url('fontawesome-free/css/all.min.css')}}" rel="stylesheet">
   <link href="{{url('assets/vendor/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -21,14 +20,11 @@
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('dashboard')}}">
-        {{-- <div class="sidebar-brand-icon">
-        <img src="img/logo/IconLogo.png">
-        </div> --}}
-        <div class="sidebar-brand-text mx-3">a</div>
+        <div class="sidebar-brand-text mx-3">Admin</div>
       </a>
       <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="{{url('dashboard')}}">
+      <li class="{{ setActive('dashboard') }}">
+        <a class="nav-link" href="{{route('dashboard')}}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -40,7 +36,7 @@
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBootstrap"
           aria-expanded="true" aria-controls="collapseBootstrap">
-          <i class="fa fa-address-card" aria-hidden="true"></i>
+          <i class="fa fa-user" aria-hidden="true"></i>
           <span>Akun</span>
         </a>         
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
@@ -51,36 +47,28 @@
           </div>
         </div>
       </li>
-
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTable" aria-expanded="true"
-          aria-controls="collapseTable">
-          <i class="fas fa-syringe"></i>
-          <span>Data Barang</span>
-        </a>
-        <div id="collapseTable" class="collapse" aria-labelledby="headingTable" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="imunisasi">Barang</a>
-            <a class="collapse-item" href="imunisasi">Jenis Barang</a>
-          </div>
-        </div>
-      </li>
       <li class="nav-item">
         <a class="nav-link" href="gizi">
-          <i class="fas fa-weight"></i>
+          <i class="fas fa-tshirt"></i>
+          <span>Data Barang</span>
+        </a>
+      </li>
+      <li class="{{ setActive('dataPenjualan') }}">
+        <a class="nav-link" href="{{route('dataPenjualan')}}">
+          <i class="fas fa-fw fa-dollar-sign"></i>
           <span>Data Penjualan</span>
         </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="gizi">
-          <i class="fas fa-weight"></i>
-          <span>Konfirmasi Pembelian</span>
+      <li class="{{ setActive('dataPemesanan') }}">
+        <a class="nav-link" href="{{route('dataPemesanan')}}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Data Pemesanan</span>
         </a>
       </li> 
-      <li class="nav-item">
-        <a class="nav-link" href="gizi">
-          <i class="fas fa-weight"></i>
-          <span>Notifikasi</span>
+      <li class="{{ setActive('dataPembayaran') }}">
+        <a class="nav-link" href="{{route('dataPembayaran')}}">
+          <i class="fas fa-fw fa-check-square"></i>
+          <span>Konfirmasi Pembayaran</span>
         </a>
       </li>  
     </ul>

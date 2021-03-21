@@ -12,11 +12,11 @@ class Pembayaran extends Model
         'pemesanan_id',
         'metode',
         'foto',
-        'tanggal'
+        'tanggal',
         'status'
     ];
 
-    public function pemesanan(){
+    public function order(){
         return $this->hasOne('App\Pemesanan', 'id');
     }
 }

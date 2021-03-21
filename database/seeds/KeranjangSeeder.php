@@ -11,6 +11,7 @@ class KeranjangSeeder extends Seeder
             'pembeli_id' => 1,
             'produk_id'  => 1,
             'qty'        => 1,
+            'status'     => 1,
         ]);
     }
 }
