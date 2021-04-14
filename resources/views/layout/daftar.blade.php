@@ -27,6 +27,7 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
   </head>
 
@@ -45,29 +46,44 @@
 
                     <h1 class="h4 text-gray-900 mb-4">Daftar Akun</h1><hr>
                   </div>
-
-                  <form class="user" method="post" action="" >
-                    @csrf
+                    @if(\Session::has('alert'))
+                    <div class="alert alert-danger mb-3" align="center" style="background-color: red; color:white; ">
+                        <div>{{Session::get('alert')}}</div>
+                    </div>
+                    @endif
+                    @if(\Session::has('alert-success'))
+                        <div class="alert alert-success">
+                            <div>{{Session::get('alert-success')}}</div>
+                        </div>
+                    @endif
+                <form class="user" method="post" action="{{ url('/registerPembeli') }}" >
+                    {{ csrf_field() }}
                     <div class="form-group">
                         <input type="text" id="nama" name="nama" class="form-control" placeholder="Nama">
-                      </div>
-                      <div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <input type="text" id="no_hp" name="no_hp" class="form-control" placeholder="No. Hp">
-                      </div>
-                    <div class="form-group">
-                      <input type="text" id="email" name="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="form-group">
-                      <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                        <textarea type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat"></textarea>
                     </div>
+                    <div class="form-group">
+                        <input type="text" id="email" name="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="confirmation" name="confirmation" class="form-control" placeholder="Confirmation Password">
+                        </div>
                     <div class="form-group text-right">
                         <p>Sudah punya akun ? <a href="{{url('login')}}"> Login</a></p>
                     </div>
                     <div class="form-group text-center mt-3">
-                      <input type="submit" class="btn btn-warning btn-block" value="Daftar">
+                        <input type="submit" class="btn btn-warning btn-block" value="Daftar">
                     </div>
 
-                  </form>
+                </form>
 
                 </div>
               </div>
@@ -81,6 +97,8 @@
   </div>
 </section>
   <!-- Login Content -->
+
+  @include('sweet::alert')
     <!-- Vendor JS Files -->
     <script src="assets/vendor/jquery/jquery.min.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
