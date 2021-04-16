@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Pemesanan;
 use App\Pembayaran;
 use Illuminate\Http\Request;
 
@@ -13,23 +14,21 @@ class PembayaranController extends Controller
         return view('admin.pembayaran', compact('payments'))->with('i');
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
         //
     }
 
-    public function update(Request $request, Pembayaran $pembayaran)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    public function destroy(Pembayaran $pembayaran)
-    {
-        //
+        $payment = Pembayaran::find($id);
+        if($request->has('diterima')){
+            $payment->update(['status' => 'diterima']);
+            Pemesanan::whereId($payment->pemesanan_id)->update(['sedang dikirim']);
+        }elseif($request->has('ditolak')){
+            $payment->update(['status' => 'ditolak']);
+            Pemesanan::whereId($payment->pemesanan_id)->update(['ditolak']);
+        }
+        return redirect()->back()->with('success', 'Data berhasil ditambah');
     }
 }

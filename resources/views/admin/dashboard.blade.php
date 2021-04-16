@@ -23,7 +23,7 @@
                                     Pembeli
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    {{$data['pembeli']}}
+                                    {{$pembeli}}
                                 </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>
@@ -44,7 +44,7 @@
                                     Transaksi
                                 </div>
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{$data['transaksi']}}
+                                    {{$transaksi}}
                                 </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>
@@ -65,7 +65,7 @@
                                     Pendapatan
                                 </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                    @currency($data['pendapatan'])
+                                    @currency($pendapatan)
                                 </div>
                                 <div class="mt-2 mb-0 text-muted text-xs"></div>
                             </div>

@@ -10,7 +10,7 @@ class PembayaranSeeder extends Seeder
         DB::table('pembayaran')->insert([
             'pemesanan_id'  => 1,
             'metode'        => 'transfer',
-            'foto'          => '',
+            'foto'          => 'nota.jpg',
             'tanggal'       => '2021-03-20',
             'status'        => 'diproses'
         ]);

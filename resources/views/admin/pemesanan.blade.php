@@ -58,7 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($orders as $order)
+                                @forelse ($orders as $order)
                                 <tr>
                                     <td>{{++$i}}</th>
                                     <td>{{$order->keranjang->produk->nama}}</td>
@@ -67,7 +67,11 @@
                                     <td>{{$order->keranjang->pembeli->nama}}</td>
                                     <td>@date($order->tanggal)</td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="6">Data kosong</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

@@ -8,12 +8,12 @@ class ProdukSeeder extends Seeder
     public function run()
     {
         DB::table('produk')->insert([
-            'nama'      => 'mega mendung',
-            'deskripsi' => 'batik terpopuler',
+            'nama'      => 'Batik Lasem',
+            'deskripsi' => 'batik populer',
             'stok'      => 30,
             'harga'     => 35000,
             'tipe'      => 'cap',
-            'foto'      => 'a'
+            'foto'      => 'batik lasem.jpg'
         ]);
     }
 }

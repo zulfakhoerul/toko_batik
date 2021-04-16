@@ -13,6 +13,7 @@
   <link href="{{url('assets/css/ruang-admin.min.css')}}" rel="stylesheet">
   <link href="{{url('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
   <link href="{{url('assets/vendor/select2/dist/css/select2.min.css')}}" rel="stylesheet">
+  <link rel="stylesheet" href="{{url('assets/vendor/fancybox/source/jquery.fancybox.css?v=2.1.5')}}" media="screen" />  
 </head>
 
 <body id="page-top">
@@ -102,7 +103,7 @@
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <span class="ml-2 d-none d-lg-inline text-white small"> 
-                setting
+                Admin
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="profil">
@@ -181,7 +182,9 @@
 <script src="{{url('assets/js/demo/chart-pie.js')}}"></script>
 <script src="{{url('assets/js/demo/chart-bar.js')}}"></script>
 <script src="{{url('assets/vendor/select2/dist/js/select2.min.js')}}"></script>
-
+<script type="text/javascript" src="{{url('assets/vendor/fancybox/lib/jquery.mousewheel.pack.js?v=3.1.3')}}"></script>
+<script type="text/javascript" src="{{url('assets/vendor/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')}}"></script>
+	
 <!-- Page level custom scripts -->
 @yield('js')
   <script src="{{url('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
@@ -191,6 +194,23 @@
       $('#dataTable').DataTable(); // ID From dataTable 
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+		  $(".fancybox").fancybox();
+	  });
+
+    $(".fancybox-effects-a").fancybox({
+				helpers: {
+					title : {
+						type : 'outside'
+					},
+					overlay : {
+						speedOut : 0
+					}
+				}
+			});
   </script>
 </body>
 </html>

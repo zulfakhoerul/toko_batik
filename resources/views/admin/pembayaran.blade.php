@@ -38,7 +38,7 @@
                             </button>
                             <ul>
                                 @foreach ($errors->all() as $error)
-                                <li>{{$error}}</li>
+                                    <li>{{$error}}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -49,19 +49,19 @@
                         <table class="table align-items-center table-flush" id="dataTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th>No</th>
-                                    <th>Nama Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>total harga</th>
-                                    <th>Nama Pembeli</th>
-                                    <th>Tanggal</th>
-                                    <th>Metode</th>
-                                    <th>Foto</th>
+                                    <th style="width: 1%">No</th>
+                                    <th style="width: 30%">Nama Produk</th>
+                                    <th style="width: 1%">Jumlah</th>
+                                    <th style="width: 1%">total harga</th>
+                                    <th style="width: 1%">Nama Pembeli</th>
+                                    <th style="width: 1%">Tanggal</th>
+                                    <th style="width: 1%">Metode</th>
+                                    <th style="width: 1%">Foto</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($payments as $payment)
+                                @forelse ($payments as $payment)
                                 <tr>
                                     <td>{{++$i}}</td>
                                     <td>{{$payment->order->keranjang->produk->nama}}</td>
@@ -70,84 +70,42 @@
                                     <td>{{$payment->order->keranjang->pembeli->nama}}</td>
                                     <td>@date($payment->tanggal)</td>
                                     <td>{{$payment->metode}}</td>
-                                    <td>{{$payment->foto}}</td>
                                     <td>
-                                        <button type="submit">Diterima</button>
-                                        <button type="submit">Ditolak</button>
+                                        <a class="fancybox-effects-a" 
+                                            href="{{ url('/assets/img/'.$payment->foto) }}">
+                                            
+                                            <img class="mx-auto d-block img-responsive" 
+                                                width="135px" height="120px" 
+                                                src="{{ url('/assets/img/'.$payment->foto) }}" 
+                                                alt="payment">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if($payment->status == 'diproses')
+                                            <form action="{{route('updateStatusPembayaran', $payment->id)}}" 
+                                                method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button class="btn btn-primary" name="diterima" type="submit">
+                                                    Diterima
+                                                </button>
+                                                <button class="btn btn-danger" name="ditolak" type="submit">
+                                                    Ditolak
+                                                </button>
+                                          </form>
+                                        @else
+                                            {{$payment->status}}
+                                        @endif
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="9">Data kosong</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-        
-            {{-- Modal edit --}}
-            {{-- @foreach ($datas as $data)
-            <div class="modal fade" id="edit-data-{{$data->id_admin}}" tabindex="-1" role="dialog"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Edit Data Admin Puskesmas</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form action="{{url('editadminpuskes', $data->id_admin)}}" method="post">
-                            @csrf
-                            @method('PUT')
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username"
-                                        value="{{$data->username}}" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <label for="nama">Nama</label>
-                                    <input type="text" class="form-control" id="nama" name="nama" value="{{$data->nama}}">
-                                </div>
-                                
-                                <label>Jenis Kelamin</label>
-                                <br>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="jk" id="jk1" value="laki-laki"
-                                        {{ ($data->jk=="laki-laki")? "checked" : "" }}>
-                                    <label class="form-check-label" for="jk1">Laki - Laki</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="jk" id="jk2" value="perempuan"
-                                        {{ ($data->jk=="perempuan")? "checked" : "" }}>
-                                    <label class="form-check-label" for="jk2">Perempuan</label>
-                                </div>
-                                <div class="form-group">
-                                    <label for="alamat">Alamat</label>
-                                    <textarea class="form-control" id="alamat" name="alamat"
-                                        rows="2">{{$data->alamat}}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="puskes">puskesmas</label>
-                                    <select class="select2-single-placeholder form-control" name="puskes" id="puskes">
-                                        @foreach ($puskes as $item)
-                                        <option value="{{$item->id_puskesmas}}">{{$item->nama_puskesmas}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password-edit" name="password"
-                                        placeholder="Masukan Password">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Tutup</button>
-                                <button type="submit" class="btn btn-success">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        @endforeach --}}
-        {{-- Akhir Modal edit--}}    
 @endsection

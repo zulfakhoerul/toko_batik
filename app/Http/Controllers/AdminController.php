@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     public function dashboard(){
-        $data = [
-            'pembeli'    => Pembeli::count(),
-            'transaksi'  => Pembayaran::count(),
-            'pendapatan' => Pemesanan::sum('total_harga')
-        ];
-        return view('admin.dashboard',compact('data'));
+        
+        $pembeli    = Pembeli::count();
+        $transaksi  = Pembayaran::count();
+        $pendapatan = Pemesanan::where('status', '!=', 'ditolak')->sum('total_harga');
+        
+        return view('admin.dashboard', compact('pembeli', 'transaksi', 'pendapatan'));
     }
 }
