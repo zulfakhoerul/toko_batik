@@ -12,14 +12,15 @@ class Keranjang extends Model
         'pembeli_id',
         'produk_id',
         'qty',
+        'jumlah_harga',
         'status'
     ];
 
-    public function produk(){
-        return $this->hasOne('App\Produk', 'id');
+    public function produk() {
+        return $this->belongsTo(Produk::class,'produk_id');
     }
 
-    public function pembeli(){
-        return $this->hasOne('App\Pembeli', 'id');
+    public function pembeli() {
+        return $this->belongsTo(Pembeli::class,'pembeli_id');
     }
 }

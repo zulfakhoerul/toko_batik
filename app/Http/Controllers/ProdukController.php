@@ -10,7 +10,7 @@ class ProdukController extends Controller
     public function index()
     {
         $products = Produk::all();
-        return view('',compact('products'))->with('i');
+        return view('/belanja',compact('products'))->with('i');
     }
 
     /**

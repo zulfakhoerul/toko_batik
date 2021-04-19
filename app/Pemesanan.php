@@ -18,4 +18,5 @@ class Pemesanan extends Model
     public function keranjang(){
         return $this->hasOne('App\Keranjang', 'id');
     }
+
 }

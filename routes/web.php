@@ -29,6 +29,23 @@ Route::get('/daftar', function () {
     return view('layout.daftar');
 });
 
+//======================Akun Pembeli============
+Route::get('/pembeli/DashboardPembeli', 'PembeliController@index');
+Route::get('/index', 'PembeliController@loginPage');
+Route::post('/login', 'PembeliController@login');
+Route::get('/registerPage', 'PembeliController@registerPage');
+Route::post('/registerPembeli', 'PembeliController@registerPembeli');
+Route::get('/logout', 'PembeliController@logout');
+
+//==================Pemesanan Batik==============
+Route::get('/pembeli/DashboardPembeli','PembelianController@index');
+Route::get('/pembeli/detail_produk{id}','PembelianController@detail');
+Route::get('/pembeli/DashboardPembeli/cari','PembelianController@cari');
+Route::post('/pesan/{id}','PembelianController@beliProduk');
+Route::get('/pembeli/keranjang','PembelianController@index_checkOut');
+Route::delete('/pembeli/keranjang/{id}','PembelianController@deleteKeranjang');
+
+
 Route::group(['prefix' => 'admin'], function()
 {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');

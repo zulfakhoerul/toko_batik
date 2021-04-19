@@ -18,6 +18,7 @@ class CreateKeranjangTable extends Migration
             $table->foreignId('pembeli_id')->constrained('pembeli');
             $table->foreignId('produk_id')->constrained('produk');
             $table->integer('qty');
+            $table->integer('jumlah_harga');
             $table->integer('status');
             $table->timestamps();
         });
