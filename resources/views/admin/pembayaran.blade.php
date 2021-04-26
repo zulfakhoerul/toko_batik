@@ -64,10 +64,10 @@
                                 @forelse ($payments as $payment)
                                 <tr>
                                     <td>{{++$i}}</td>
-                                    <td>{{$payment->order->keranjang->produk->nama}}</td>
-                                    <td>{{$payment->order->keranjang->qty}}</td>
-                                    <td>@currency($payment->order->total_harga)</td>
-                                    <td>{{$payment->order->keranjang->pembeli->nama}}</td>
+                                    <td>{{$payment->pemesanan->keranjang->produk->nama}}</td>
+                                    <td>{{$payment->pemesanan->keranjang->qty}}</td>
+                                    <td>@currency($payment->pemesanan->total_harga)</td>
+                                    <td>{{$payment->pemesanan->keranjang->pembeli->nama}}</td>
                                     <td>@date($payment->tanggal)</td>
                                     <td>{{$payment->metode}}</td>
                                     <td>

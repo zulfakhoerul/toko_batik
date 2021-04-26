@@ -52,20 +52,18 @@
                                     <th>No</th>
                                     <th>Jumlah Barang</th>
                                     <th>Pendapatan</th>
-                                    <th>Bulan</th>
+                                    <th>Tanggal</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- @foreach ($order as $order)
+                                @foreach ($datas as $data)
                                 <tr>
                                     <td>{{++$i}}</th>
-                                    <td>{{$order->username}}</td>
-                                    <td>{{$order->nama}}</td>
-                                    <td>{{$order->jk}}</td>
-                                    <td>{{$order->alamat}}</td>
-                                    <td>{{$order->puskesmas->nama_puskesmas}}</td>
+                                    <td>{{$data->pemesanan_id}}</td>
+                                    <td>{{$data->pendapatan}}</td>
+                                    <td>{{$data->tanggal}}</td>
                                 </tr>
-                                @endforeach --}}
+                                @endforeach 
                             </tbody>
                         </table>
                     </div>

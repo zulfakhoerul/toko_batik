@@ -53,7 +53,5 @@ Route::group(['prefix' => 'admin'], function()
     Route::get('/data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');
     Route::put('/ubah-status-pembayaran/{id}', 'PembayaranController@update')->name('updateStatusPembayaran');
     Route::get('/test', 'PenjualanController@index');
-    Route::get('/data-penjualan', function () {
-        return view('admin.penjualan');
-    })->name('dataPenjualan');
+    Route::get('/data-penjualan', 'PenjualanController@index')->name('dataPenjualan');
 });

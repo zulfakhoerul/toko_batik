@@ -13,7 +13,7 @@ class PemesananController extends Controller
         $orders = Pemesanan::orderBy('id', 'desc')
                     ->where('status', '!=', 'ditolak')
                     ->get();
-        return view('admin.pemesanan',compact('orders'))->with('i');
+        return view('admin.pemesanan', compact('orders'))->with('i');
     }
 
     public function create()

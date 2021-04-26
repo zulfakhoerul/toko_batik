@@ -4,16 +4,14 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pembayaran extends Model
+class Penjualan extends Model
 {
-    protected $table = 'pembayaran';
+    protected $table = 'penjualan';
 
     protected $fillable = [
         'pemesanan_id',
-        'metode',
-        'foto',
         'tanggal',
-        'status'
+        'pendapatan',
     ];
 
     public function pemesanan(){

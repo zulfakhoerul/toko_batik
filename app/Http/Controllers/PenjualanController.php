@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Pembayaran;
+use App\Penjualan;
 use Illuminate\Http\Request;
 
 class PenjualanController extends Controller
 {
     public function index()
     {
-        
-        return view('admin.penjualan');
+        $datas = Penjualan::all();
+        return view('admin.penjualan', compact('datas'))->with('i');
     }
 }
