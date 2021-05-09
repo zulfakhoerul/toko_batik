@@ -23,4 +23,8 @@ class Keranjang extends Model
     public function pembeli() {
         return $this->belongsTo(Pembeli::class,'pembeli_id');
     }
+
+    public function pemesanan() {
+        return $this->belongsToMany(Pemesanan::class,'pemesanan','id','keranjang_id');//model_tabel_yang_mau_disambungin, nama_tabel_perantara, foreignkey1_pada_tabel_penghubung, foreignkey2_pada_tabel_penghubung)
+    }
 }

@@ -62,50 +62,97 @@
             </a>
           </li>
           <li><a href="{{url('pembeli/riwayat_beli')}}"><i class="fas fa-bell"></i></a></li>
-
-          <li><a href="#"> {{Session::get('nama')}}</a></li>
-            <li class="book-a-table text-center"><a href="{{('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          <li><a href="#"> {{Session::get('nama')}}
+        </a></li>
+        <li class="book-a-table text-center"><a href="{{('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
       </nav><!-- .nav-menu -->
 
     </div>
+
+    <script type="text/javascript">
+
+        function startCalculate(){
+            interval=setInterval("Calculate()",1);
+        }
+        function Calculate(){
+            var a=document.form1.harga.value;
+            var c=document.form1.qty.value;
+            document.form1.jumlah_harga.value=(c*a);
+        }
+        function stopCalc(){
+            clearInterval(interval);
+        }
+    </script>
   </header><!-- End Header -->
 
     <!-- ======= Jenis Section ======= -->
     <section id="jenis" class="why-us">
-      <div class="container mt-5">
+        <div class="col-md-12 mt-5">
+            <div class="card" >
+                <div class="card-body">
+            <div class="container">
+                <a href="{{ url('pembeli/DashboardPembeli') }}" class="btn_2"><i class="fas fa-arrow-left"></i> Kembali</a><br><br>
 
-        <div class="section-title">
-          <h2>Mari berbelanja <span>Batik Paoman</span></h2>
+                <div class="col-12">
+                    <div class="card" style="box-shadow: 2px 5px 5px  rgba(128, 128, 128, 0.247);">
+                        <div class="card-body">
+                            <H4><i class="fas fa-shopping-cart"></i> Riwayat Pemesanan</H4>
 
-        </div>
-        <div class="mt-1">
-            <center>
-                <input class="btn btn-light col-10" type="text" name="cari" placeholder="Cari Nama Batik .."  style="box-shadow: 2px 5px rgba(128, 128, 128, 0.247);">
-                <button class="btn btn-warning col-1"><i class="fa fa-search"></i></button>
-            </center>
-        </div>
+                                <table class="table">
 
-
-        <div class="row mt-5">
-            @foreach ($produk as $produk)
-          <div class="col-lg-4">
-            <div class="box" style="height: 450px">
-                <center>
-                <img src="{{ url('/assets/img/produk/'.$produk->foto) }}"  alt="" style="width: 290px" height="165px">
-            </center>
-                <h4>{{ $produk->tipe }} {{$produk->nama}}</h4>
-                <p>{{ $produk->deskripsi }}</p>
-                <p><i class="fas fa-coins"></i> Rp. {{ $produk->harga }}</p>
-            <center>
-                <a href="{{ url('/pembeli/detail_produk'.$produk->id) }}" class="btn btn-warning mt-5"><i class="fa fa-shopping-cart"> Pesan</i></a>
-            </center>
+                                    <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tanggal Pembelian</th>
+                                        <th>Metode Pembayaran</th>
+                                        <th>Status</th>
+                                        <th>Detail</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                        $no = 1;
+                                    ?>
+                                    @foreach($pemesanan as $pemesanan)
+                                        <tr>
+                                            <td>{{ $no++ }}</td>
+                                            <td>{{ $pemesanan->tanggal}}</td>
+                                            <td>
+                                                @if($pemesanan->metode_pembayaran == 1)
+                                                <span>Transfer</span>
+                                                @else
+                                                <span>Bayar Ditempat</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($pemesanan->status == 1)
+                                                <span class="badge badge-warning">Sudah Pesan & Menunggu Pembayaran</span>
+                                                @elseif($pemesanan->status == 2)
+                                                <span class="badge text-white" style="background-color: blue">Menunggu Konfirmasi</span>
+                                                @elseif($pemesanan->status == 3)
+                                                <span class="badge text-white" style="background-color: #3f6ad8">Menunggu di ambil</span>
+                                                @elseif($pemesanan->status == 4)
+                                                <span class="badge badge-success"> Selesai</span>
+                                                @elseif($pemesanan->status == 5)
+                                                <span class="badge badge-danger"> Dibatalkan</i></span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ url('history')}}/{{ $pemesanan->id}}" class="btn btn-primary"><i class="fa fa-info"></i> Detail</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </div>
-          </div>
-          @endforeach
         </div>
-      </div>
-    </section><!-- End Jenis Section -->
+    </section>
+<!-- End Jenis Section -->
 
 
   <!-- ======= Footer ======= -->
@@ -121,14 +168,14 @@
         <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
       </div>
       <div class="copyright">
-        &copy; Copyright <strong><span>Delicious</span></strong>. All Rights Reserved
+        &copy; Copyright <strong><span>Batik Paoman</span></strong>. All Rights Reserved
       </div>
       <div class="credits">
         <!-- All the links in the footer should remain intact. -->
         <!-- You can delete the links only if you purchased the pro version. -->
         <!-- Licensing information: https://bootstrapmade.com/license/ -->
         <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/delicious-free-restaurant-bootstrap-theme/ -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        Designed by <p>Kelompok 1</p>
       </div>
     </div>
   </footer><!-- End Footer -->

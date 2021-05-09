@@ -38,16 +38,17 @@ Route::post('/registerPembeli', 'PembeliController@registerPembeli');
 Route::get('/logout', 'PembeliController@logout');
 
 //==================Pemesanan Batik==============
-Route::get('/pembeli/DashboardPembeli','PembelianController@index');
-Route::get('/pembeli/detail_produk{id}','PembelianController@detail');
-Route::get('/pembeli/DashboardPembeli/cari','PembelianController@cari');
-Route::post('/pesan/{id}','PembelianController@beliProduk');
-Route::get('/pembeli/keranjang','PembelianController@index_checkOut');
-Route::delete('/pembeli/keranjang/{id}','PembelianController@deleteKeranjang');
+Route::get('/pembeli/DashboardPembeli', 'PembelianController@index');
+Route::get('/pembeli/detail_produk{id}', 'PembelianController@detail');
+Route::get('/pembeli/DashboardPembeli/cari', 'PembelianController@cari');
+Route::post('/pesan/{id}', 'PembelianController@beliProduk');
+Route::get('/pembeli/keranjang', 'PembelianController@index_checkOut');
+Route::delete('/pembeli/keranjang/{id}', 'PembelianController@deleteKeranjang');
+Route::post('/add-konfirmasi/{id}', 'PembelianController@konfirmasi');
+Route::get('/pembeli/riwayat_beli', 'PembelianController@tampilRiwayat');
+Route::get('history/{id}', 'PembelianController@riwayatDetail');
 
-
-Route::group(['prefix' => 'admin'], function()
-{
+Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('/data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
     Route::get('/data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');

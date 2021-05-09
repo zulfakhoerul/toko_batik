@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Keranjang;
+use App\Pembayaran;
 use App\Pembeli;
 use App\Pemesanan;
 use App\Produk;
-use Session;
+use App\RiwayatPemesanan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
+use Session;
 
 class PembelianController extends Controller
 {
@@ -27,7 +31,7 @@ class PembelianController extends Controller
 		$cari = $request->cari;
 
     		// mengambil data dari table pegawai sesuai pencarian data
-        $obat = ModelObat::where('nama_obat','like',"%".$cari."%")->paginate();
+        $produk = Produk::where('nama_produk','like',"%".$cari."%")->paginate();
 
     		// mengirim data pegawai ke view index
 		return view('/Pasien/DashboardPasien', compact('obat'));
@@ -110,5 +114,88 @@ class PembelianController extends Controller
             alert()->info('Produk Pada Keranjang Telah Di Hapus', 'Hapus');
             return redirect('pembeli/keranjang');
         }
+
+        public function konfirmasi(Request $request, $id)
+        {
+            $keranjang = Keranjang::where('id', $id)->where('status',0)->first();
+            $pemesanan = Pemesanan::where('keranjang_id', $id)->get();
+            $total = Keranjang::where('id', $id)->sum('jumlah_harga');
+
+            if($request->metode_pembayaran == "1"){
+                $keranjang->status = 1;
+            }else if($request->metode_pembayaran == "2"){
+                $keranjang->status = 2;
+            }
+            $keranjang->update();
+
+            $pemesanan = new Pemesanan();
+            $pemesanan->keranjang_id = $keranjang->id;
+            if($request->metode_pembayaran == "1"){
+                $pemesanan->metode_pembayaran = "1";
+                $pemesanan->status = 1;
+            }else if($request->metode_pembayaran == "2"){
+                $pemesanan->metode_pembayaran = "2";
+                $pemesanan->status = 2;
+            }
+
+            $pemesanan->tanggal = Carbon::now();
+            $pemesanan->no_hp = $request->no_hp;
+            $pemesanan->total_harga = $total;
+            $pemesanan->save();
+
+            $krnjg = Keranjang::where('id', $id)->get();
+            foreach($krnjg as $krnjg){
+                $produk = Produk::where('id', $krnjg->produk_id)->first();
+                $produk->stok = $produk->stok-$krnjg->qty;
+                $produk->update();
+            }
+
+            $riwayat = new RiwayatPemesanan();
+            $riwayat->pembeli_id = Session::get('id');
+            $riwayat->pemesanan_id = $pemesanan->id;
+            $riwayat->save();
+
+            alert()->success('Sukses Check Out', 'Success');
+            return redirect('pembeli/riwayat_beli');
+        }
+
+        public function tampilRiwayat()
+    {
+        $riwayat = RiwayatPemesanan::where('pembeli_id', Session::get('id'));
+        $pemesanan = Pemesanan::all();
+
+
+        //Proses pembatalan dalam 1 hari
+        $now = Carbon::now()->format('y-m-d');
+        $selesai = Pemesanan::all();
+
+        foreach ($selesai as $batal) {
+            $selisih_hari = $batal->created_at->diffInDays($now);
+
+            if($selisih_hari >= 1 && $batal->status == 1){
+                $update_batal = Pemesanan::find($batal->id);
+                $update_batal->status = 5;
+                $update_batal->save();
+            }
+        }
+
+        return view('pembeli/riwayat_beli', compact('riwayat', 'pemesanan', 'now', 'selesai'));
+    }
+
+    public function riwayatDetail($id)
+    {
+        $pemesanan = Pemesanan::where('id', $id)->first();
+        //$pembayaran = ModelPembayaran::where('id_pembayaran', $pemesanan->id_pembayaran)->get();
+        $riwayats  = RiwayatPemesanan::where('pemesanan_id', $pemesanan->pemesanan_id)->get();
+        $total = Pemesanan::where('id', $id)->sum('total_harga');
+        $keranjang = Keranjang::get();
+        $pms = Pemesanan::with('keranjang', 'produk')->where('id', $pemesanan->id)->get();
+        $pembayaran = Pembayaran::get();
+        Artisan::call('view:clear');
+
+
+        return view('pembeli/riwayat_detail', compact('pembayaran', 'pemesanan','riwayats','total', 'keranjang', 'pms' ));
+    }
+
 
 }

@@ -46,8 +46,22 @@
       <nav class="nav-menu d-none d-lg-block">
         <ul>
           <li class="active"><a href="{{url('pembeli/DashboardPembeli')}}">Pemesanan Batik</a></li>
-          <li><a href="{{url('pembeli/keranjang')}}"><i class="fa fa-shopping-cart"></i></a></li>
-          <li><a href="{{url('pembeli/')}}"><i class="fas fa-bell"></i></a></li>
+          <li>
+            <?php
+            $pesanan_utama = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->first();
+            if(!empty($pesanan_utama))
+            {
+                $notif = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->count();
+            }
+
+            ?>
+            <a href="{{url('pembeli/keranjang')}}"><i class="fa fa-shopping-cart"></i>
+                @if(!empty($notif))
+                <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notif }}</span>
+                @endif
+            </a>
+          </li>
+          <li><a href="{{url('pembeli/riwayat_beli')}}"><i class="fas fa-bell"></i></a></li>
 
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle"  id="navbarDropdownpro" href="#"
@@ -55,7 +69,7 @@
                 {{Session::get('nama')}}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownpro">
-                <a href="{{ url('pembeli/riwayat_Beli') }}" class="dropdown-item"><i class="fas fa-list-ul"></i> Riwayat</a>
+                <a href="{{ url('pembeli/riwayat_beli') }}" class="dropdown-item"><i class="fas fa-list-ul"></i> Riwayat</a>
                 <a class="dropdown-item" href="{{('/logout') }}"><i class="fas fa-sign-out-alt"></i> Logout </a>
             </div>
         </li>
@@ -175,7 +189,7 @@
                                         <tr>
                                             <td><strong>No HP</strong></td>
                                             <td>:</td>
-                                            <td><input class="form-control" type="number" name="no_telepon" value="{{$keranjang->pembeli->no_hp}}" required><small>*Isi dengan Nomor Handphone yang masih aktif</small></td>
+                                            <td><input class="form-control" type="number" name="no_hp" value="{{$keranjang->pembeli->no_hp}}" required><small>*Isi dengan Nomor Handphone yang masih aktif</small></td>
                                         </tr>
                                     </table>
                                     <div class="col-12 float-right" align="right">
