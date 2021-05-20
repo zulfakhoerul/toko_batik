@@ -13,7 +13,7 @@
   <link href="{{url('assets/css/ruang-admin.min.css')}}" rel="stylesheet">
   <link href="{{url('assets/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
   <link href="{{url('assets/vendor/select2/dist/css/select2.min.css')}}" rel="stylesheet">
-  <link rel="stylesheet" href="{{url('assets/vendor/fancybox/source/jquery.fancybox.css?v=2.1.5')}}" media="screen" />  
+  <link rel="stylesheet" href="{{url('assets/vendor/fancybox/source/jquery.fancybox.css?v=2.1.5')}}" media="screen" />
 </head>
 
 <body id="page-top">
@@ -39,7 +39,7 @@
           aria-expanded="true" aria-controls="collapseBootstrap">
           <i class="fa fa-user" aria-hidden="true"></i>
           <span>Akun</span>
-        </a>         
+        </a>
         <div id="collapseBootstrap" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Akun</h6>
@@ -49,9 +49,9 @@
         </div>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="gizi">
+        <a class="nav-link" href="{{route('produk.index')}}">
           <i class="fas fa-tshirt"></i>
-          <span>Data Barang</span>
+          <span>Data Produk</span>
         </a>
       </li>
       <li class="{{ setActive('dataPenjualan') }}">
@@ -65,15 +65,15 @@
           <i class="fas fa-fw fa-table"></i>
           <span>Data Pemesanan</span>
         </a>
-      </li> 
+      </li>
       <li class="{{ setActive('dataPembayaran') }}">
         <a class="nav-link" href="{{route('dataPembayaran')}}">
           <i class="fas fa-fw fa-check-square"></i>
           <span>Konfirmasi Pembayaran</span>
         </a>
-      </li>  
+      </li>
     </ul>
-    
+
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
@@ -84,7 +84,7 @@
           </button>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown no-arrow">
-             
+
               <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                 aria-labelledby="searchDropdown">
                 <form class="navbar-search">
@@ -97,12 +97,12 @@
                 </form>
               </div>
             </li>
-                        
+
             <div class="topbar-divider d-none d-sm-block"></div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="ml-2 d-none d-lg-inline text-white small"> 
+                <span class="ml-2 d-none d-lg-inline text-white small">
                 Admin
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -122,8 +122,8 @@
         <!-- Topbar -->
 
         <!-- Container Fluid-->
-        
-          @yield('content') 
+
+          @yield('content')
           <!--Row-->
 
           <!-- Modal Logout -->
@@ -147,7 +147,7 @@
               </div>
             </div>
           </div>
-        </div>
+
         <!---Container Fluid-->
       </div>
       <!-- Footer -->
@@ -155,7 +155,7 @@
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>
-                copyright &copy; <script> document.write(new Date().getFullYear()); </script> 
+                copyright &copy; <script> document.write(new Date().getFullYear()); </script>
                 Batik Paoman
             </span>
           </div>
@@ -184,14 +184,14 @@
 <script src="{{url('assets/vendor/select2/dist/js/select2.min.js')}}"></script>
 <script type="text/javascript" src="{{url('assets/vendor/fancybox/lib/jquery.mousewheel.pack.js?v=3.1.3')}}"></script>
 <script type="text/javascript" src="{{url('assets/vendor/fancybox/source/jquery.fancybox.pack.js?v=2.1.5')}}"></script>
-	
+
 <!-- Page level custom scripts -->
 @yield('js')
   <script src="{{url('assets/vendor/datatables/jquery.dataTables.min.js')}}"></script>
   <script src="{{url('assets/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
   <script>
     $(document).ready(function () {
-      $('#dataTable').DataTable(); // ID From dataTable 
+      $('#dataTable').DataTable(); // ID From dataTable
       $('#dataTableHover').DataTable(); // ID From dataTable with Hover
     });
   </script>
