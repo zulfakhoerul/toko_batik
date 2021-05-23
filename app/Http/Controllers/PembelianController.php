@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Session;
+use PDF;
 
 class PembelianController extends Controller
 {
@@ -220,5 +221,17 @@ class PembelianController extends Controller
 
         alert()->success('Sukses Upload Bukti Transfer', 'Success');
         return redirect('/pembeli/riwayat_beli');
+    }
+
+    public function cetak_pdf($id)
+    {
+        $produk             = Produk::all();
+        $pemesanan        = Pemesanan::where('id', $id)->first();
+        $keranjang = Keranjang::where('pemesanan_id', $id)->get();
+        $total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
+
+        $size = array(0,0,450,500);
+        $pdf = PDF::loadview('/pembeli/PemesananPDF',compact('produk', 'pemesanan', 'keranjang', 'total'))->setPaper($size);
+        return $pdf->stream('cetak-pemesanan-pdf.pdf');
     }
 }

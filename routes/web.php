@@ -51,6 +51,7 @@ Route::post('/add-konfirmasi/{id}', 'PembelianController@konfirmasi');
 Route::get('/pembeli/riwayat_beli', 'PembelianController@tampilRiwayat');
 Route::get('history/{id}', 'PembelianController@riwayatDetail');
 Route::post('buktiTf/{id}', 'PembelianController@buktiTf');
+Route::get('/pembeli/cetak_pdf/{id}', 'PembelianController@cetak_pdf');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
