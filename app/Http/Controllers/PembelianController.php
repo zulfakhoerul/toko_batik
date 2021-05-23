@@ -15,33 +15,36 @@ use Session;
 
 class PembelianController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $produk = Produk::all();
         return view('/pembeli/DashboardPembeli', compact('produk'));
     }
 
-    public function detail($id){
+    public function detail($id)
+    {
         $produk = Produk::where('id', $id)->first();
         return view('/pembeli/detail_produk', compact('produk'));
     }
 
     public function cari(Request $request)
-	{
-		// menangkap data pencarian
-		$cari = $request->cari;
+    {
+        // menangkap data pencarian
+        $cari = $request->cari;
 
-    		// mengambil data dari table pegawai sesuai pencarian data
-        $produk = Produk::where('nama_produk','like',"%".$cari."%")->paginate();
+        // mengambil data dari table pegawai sesuai pencarian data
+        $produk = Produk::where('nama', 'like', "%" . $cari . "%")->paginate();
 
-    		// mengirim data pegawai ke view index
-		return view('/Pasien/DashboardPasien', compact('obat'));
+        // mengirim data pegawai ke view index
+        return view('/pembeli/DashboardPembeli', compact('produk'));
     }
 
-    public function beliProduk(Request $request, $id){
+    public function beliProduk(Request $request, $id)
+    {
         $this->validate($request, [
             'qty' => 'required|min:1|integer',
             'jumlah_harga' => 'required'
-        ],[
+        ], [
             'qty.required' => '*Harus isi jumlah beli terlebih dahulu',
             'qty.min' => 'Tidak boleh kosong atau minus 1'
         ]);
@@ -51,119 +54,112 @@ class PembelianController extends Controller
 
 
         //validasi apakah MELEBIHI STOK
-        if($request->qty > $produk->stok){
+        if ($request->qty > $produk->stok) {
             alert()->info('Melebihi Stok Yang Ada !!!!!', 'Peringatan!');
-            return redirect('pembeli/detail_produk'.$id);
+            return redirect('pembeli/detail_produk' . $id);
         }
-        $cek_pemesanan = Keranjang::where('pembeli_id', Session::get('id'))->where('produk_id', $produk->id)->where('status', 0)->first();
-        if(empty($cek_pemesanan)){
+        $cek_keranjang = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
+        if (empty($cek_keranjang)) {
+            $keranjang = new Pemesanan();
+            $keranjang->pembeli_id =  Session::get('id');
+            // $keranjang->produk_id = $produk->id;
+            // $keranjang->qty = $request->qty;
+            // $keranjang->jumlah_harga = $produk->harga*$request->qty;
+            $keranjang->status = 0;
+            $keranjang->save();
+        }
+
+        $pemesanan_baru = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
+
+        $cek_pemesanan = Keranjang::where('produk_id', $produk->id)->where('pemesanan_id', $pemesanan_baru->id)->first();
+        if (empty($cek_pemesanan)) {
             $pemesanan = new Keranjang();
-            $pemesanan->pembeli_id =  Session::get('id');
+            $pemesanan->pemesanan_id = $pemesanan_baru->id;
             $pemesanan->produk_id = $produk->id;
-            $pemesanan->qty = $request->qty;
-            $pemesanan->jumlah_harga = $produk->harga*$request->qty;
             $pemesanan->status = 0;
+            $pemesanan->qty = $request->qty;
+            $pemesanan->jumlah_harga = $produk->harga * $request->qty;
+            // $pemesanan->jumlah_harga = $produk->harga*$request->qty;
             $pemesanan->save();
-        }
-
-        $pemesanan_baru = Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->first();
-
-        $cek_pemesanan_detail = Keranjang::where('produk_id', $produk->id)->first();
-        if(empty($cek_pemesanan_detail)){
-            $pemesanan_detail = new Keranjang();
-            $pemesanan_detail->produk_id = $produk->id;
-            $pemesanan_detail->qty = $request->qty;
-            $pemesanan_detail->jumlah_harga = $produk->harga*$request->qty;
-            $pemesanan_detail->save();
-        }else{
-            $pemesanan_detail = Keranjang::where('produk_id', $produk->id)->first();
-            if($pemesanan_detail->qty + $request->qty > $produk->stok ){
-                alert()->error('Barang yang masuk keranjang melebihi stok yang ada','Gagal');
-                return redirect('pembeli/detail_produk'.$id);
+        } else {
+            $pemesanan = Keranjang::where('produk_id', $produk->id)->where('pemesanan_id', $pemesanan_baru->id)->first();
+            if ($pemesanan->qty + $request->qty > $produk->stok) {
+                alert()->error('Barang yang masuk keranjang melebihi stok yang ada', 'Gagal');
+                return redirect('pembeli/detail_produk' . $id);
             }
-            $pemesanan_detail->qty = $pemesanan_detail->qty+$request->qty;
+            $pemesanan->qty = $pemesanan->qty + $request->qty;
 
-            $harga_pemesanan_detail_baru = $produk->harga * $request->qty;
-            $pemesanan_detail->jumlah_harga = $pemesanan_detail->jumlah_harga+$harga_pemesanan_detail_baru;
-            $pemesanan_detail->update();
+            $harga_pemesanan_baru = $produk->harga * $request->qty;
+            $pemesanan->jumlah_harga = $pemesanan->jumlah_harga + $harga_pemesanan_baru;
+            $pemesanan->update();
         }
 
-            alert()->success('Masuk Ke Dalam Keranjang', 'Berhasil');
-            return redirect('pembeli/DashboardPembeli');
-        }
+        alert()->success('Masuk Ke Dalam Keranjang', 'Berhasil');
+        return redirect('pembeli/DashboardPembeli');
+    }
 
-        public function index_checkOut()
-        {
-            $pembeli   = Pembeli::where('id', Session::get('id'))->first();
-            $produk   = Produk::all();
-            $keranjang = Keranjang::where('pembeli_id', $pembeli->id)->where('status',0)->get();
-            if(!empty($keranjang))
-            {
-                $krnjg = Keranjang::where('pembeli_id', $pembeli->id)->get();
-                $total = Keranjang::where('pembeli_id', $pembeli->id)->where('status', 0)->sum('jumlah_harga');
-                return view('pembeli/keranjang', compact('keranjang', 'krnjg','total','pembeli'));
-            }
-            return view('pembeli/keranjang', compact('keranjang','produk','pembeli','total'));
-        }
-
-        public function deleteKeranjang($id)
-        {
-            $keranjang = Keranjang::where('id', $id)->first();
-
-            $keranjang->delete();
-            alert()->info('Produk Pada Keranjang Telah Di Hapus', 'Hapus');
-            return redirect('pembeli/keranjang');
-        }
-
-        public function konfirmasi(Request $request, $id)
-        {
-            $keranjang = Keranjang::where('id', $id)->where('status',0)->first();
-            $pemesanan = Pemesanan::where('keranjang_id', $id)->get();
-            $total = Keranjang::where('id', $id)->sum('jumlah_harga');
-
-            if($request->metode_pembayaran == "1"){
-                $keranjang->status = 1;
-            }else if($request->metode_pembayaran == "2"){
-                $keranjang->status = 2;
-            }
-            $keranjang->update();
-
-            $pemesanan = new Pemesanan();
-            $pemesanan->keranjang_id = $keranjang->id;
-            if($request->metode_pembayaran == "1"){
-                $pemesanan->metode_pembayaran = "1";
-                $pemesanan->status = 1;
-            }else if($request->metode_pembayaran == "2"){
-                $pemesanan->metode_pembayaran = "2";
-                $pemesanan->status = 2;
-            }
-
-            $pemesanan->tanggal = Carbon::now();
-            $pemesanan->no_hp = $request->no_hp;
-            $pemesanan->total_harga = $total;
-            $pemesanan->save();
-
-            $krnjg = Keranjang::where('id', $id)->get();
-            foreach($krnjg as $krnjg){
-                $produk = Produk::where('id', $krnjg->produk_id)->first();
-                $produk->stok = $produk->stok-$krnjg->qty;
-                $produk->update();
-            }
-
-            $riwayat = new RiwayatPemesanan();
-            $riwayat->pembeli_id = Session::get('id');
-            $riwayat->pemesanan_id = $pemesanan->id;
-            $riwayat->save();
-
-            alert()->success('Sukses Check Out', 'Success');
-            return redirect('pembeli/riwayat_beli');
-        }
-
-        public function tampilRiwayat()
+    public function index_checkOut()
     {
-        $riwayat = RiwayatPemesanan::where('pembeli_id', Session::get('id'));
-        $pemesanan = Pemesanan::all();
+        $pembeli   = Pembeli::where('id', Session::get('id'))->first();
+        $produk   = Produk::all();
+        $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
+        if (!empty($pemesanan)) {
+            $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
+            $keranjang = Keranjang::where('pemesanan_id', $pemesanan->id)->get();
+            $total = Keranjang::where('pemesanan_id', $pemesanan->id)->sum('jumlah_harga');
+            return view('pembeli/keranjang', compact('pemesanan', 'keranjang', 'total'));
+        }
+        return view('pembeli/keranjang', compact('pemesanan', 'produk', 'pembeli'));
+    }
 
+    public function deleteKeranjang($id)
+    {
+        $keranjang = Keranjang::where('id', $id)->first();
+
+        $keranjang->delete();
+        alert()->info('Produk Pada Keranjang Telah Di Hapus', 'Hapus');
+        return redirect('pembeli/keranjang');
+    }
+
+    public function konfirmasi(Request $request, $id)
+    {
+        $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
+        $keranjang = Keranjang::where('pemesanan_id', $id)->get();
+        $total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
+
+        $pemesanan_id = $id;
+
+        if ($request->metode_pembayaran == "1") {
+            $pemesanan->metode_pembayaran = "1";
+            $pemesanan->status = 1;
+        } else if ($request->metode_pembayaran == "2") {
+            $pemesanan->metode_pembayaran = "2";
+            $pemesanan->status = 2;
+        }
+        $pemesanan->tanggal = Carbon::now();
+        $pemesanan->no_hp = $request->no_hp;
+        $pemesanan->total_harga = $total;
+        $pemesanan->update();
+
+        $keranjang = Keranjang::where('pemesanan_id', $pemesanan_id)->get();
+        foreach ($keranjang as $keranjang) {
+            $produk = Produk::where('id', $keranjang->produk_id)->first();
+            $produk->stok = $produk->stok - $keranjang->qty;
+            $produk->update();
+        }
+
+        $riwayat = new RiwayatPemesanan();
+        $riwayat->pembeli_id = Session::get('id');
+        $riwayat->pemesanan_id = $pemesanan->id;
+        $riwayat->save();
+
+        alert()->success('Sukses Check Out', 'Success');
+        return redirect('pembeli/riwayat_beli');
+    }
+
+    public function tampilRiwayat()
+    {
+        $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status','!=',0)->get()->sortBy('status');
 
         //Proses pembatalan dalam 1 hari
         $now = Carbon::now()->format('y-m-d');
@@ -172,30 +168,57 @@ class PembelianController extends Controller
         foreach ($selesai as $batal) {
             $selisih_hari = $batal->created_at->diffInDays($now);
 
-            if($selisih_hari >= 1 && $batal->status == 1){
+            if ($selisih_hari >= 1 && $batal->status == 1) {
                 $update_batal = Pemesanan::find($batal->id);
                 $update_batal->status = 5;
                 $update_batal->save();
             }
         }
 
-        return view('pembeli/riwayat_beli', compact('riwayat', 'pemesanan', 'now', 'selesai'));
+        return view('pembeli/riwayat_beli', compact('pemesanan', 'now', 'selesai'));
     }
 
     public function riwayatDetail($id)
     {
         $pemesanan = Pemesanan::where('id', $id)->first();
         //$pembayaran = ModelPembayaran::where('id_pembayaran', $pemesanan->id_pembayaran)->get();
-        $riwayats  = RiwayatPemesanan::where('pemesanan_id', $pemesanan->pemesanan_id)->get();
-        $total = Pemesanan::where('id', $id)->sum('total_harga');
-        $keranjang = Keranjang::get();
-        $pms = Pemesanan::with('keranjang', 'produk')->where('id', $pemesanan->id)->get();
+        $keranjang  = Keranjang::where('pemesanan_id', $pemesanan->id)->get();
+        $total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
         $pembayaran = Pembayaran::get();
         Artisan::call('view:clear');
 
 
-        return view('pembeli/riwayat_detail', compact('pembayaran', 'pemesanan','riwayats','total', 'keranjang', 'pms' ));
+        return view('pembeli/riwayat_detail', compact('pembayaran', 'pemesanan', 'total', 'keranjang'));
     }
 
+    public function buktiTf(Request $request, $id)
+    {
 
+        $pemesanan = Pemesanan::where('id', $id)->where('pembeli_id', Session::get('id'))->where('status',1)->first();
+        $pembayaran = Pembayaran::where('pemesanan_id', $pemesanan->id)->get();
+        $total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
+
+
+        $file = $request->file('foto');
+        $nama_file = time()."_".$file->getClientOriginalName();
+        $tujuan_upload = 'bukti_tf';
+        $file -> move($tujuan_upload,$nama_file);
+
+        $tanggal = Carbon::now();
+
+        $pembayaran = new Pembayaran();
+        $pembayaran->pemesanan_id = $pemesanan->id;
+        $pembayaran->metode = $pemesanan->metode_pembayaran;
+        $pembayaran->foto = $nama_file;
+        $pembayaran->tanggal = $tanggal;
+        $pembayaran->status = 1;
+        $pembayaran->save();
+
+
+        $pemesanan->status=2;
+        $pemesanan->update();
+
+        alert()->success('Sukses Upload Bukti Transfer', 'Success');
+        return redirect('/pembeli/riwayat_beli');
+    }
 }

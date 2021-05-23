@@ -15,7 +15,7 @@ class CreateKeranjangTable extends Migration
     {
         Schema::create('keranjang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pembeli_id')->constrained('pembeli');
+            $table->foreignId('pemesanan_id')->constrained('pemesanan');
             $table->foreignId('produk_id')->constrained('produk');
             $table->integer('qty');
             $table->integer('jumlah_harga');

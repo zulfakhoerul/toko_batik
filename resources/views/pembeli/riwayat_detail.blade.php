@@ -48,10 +48,10 @@
           <li class="active"><a href="{{url('pembeli/DashboardPembeli')}}">Pemesanan Batik</a></li>
           <li>
             <?php
-            $pesanan_utama = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->first();
+            $pesanan_utama = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',0)->first();
             if(!empty($pesanan_utama))
             {
-                $notif = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->count();
+                $notif = \App\Keranjang::where('pemesanan_id', $pesanan_utama->id)->count();
             }
 
             ?>
@@ -61,7 +61,49 @@
                 @endif
             </a>
           </li>
-          <li><a href="{{url('pembeli/riwayat_beli')}}"><i class="fas fa-bell"></i></a></li>
+          <li>
+            <?php
+            $pemesanan_notif = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',1)->first();
+            $pemesanan_notif2 = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',5)->first();
+
+            if(!empty($pemesanan_notif))
+            {
+                $notifikasi = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status', $pemesanan_notif->status)->count();
+            }
+            if(!empty($pemesanan_notif2))
+            {
+                $notifikasi2 = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status', $pemesanan_notif2->status)->count();
+            }
+            ?>
+                <a href="{{ url('pembeli/riwayat_beli') }}" class="nav-link"><i class="fas fa-bell"></i>
+                    @if(!empty($pemesanan_notif && $pemesanan_notif2))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi + $notifikasi2}}</span>
+                    @elseif(!empty($pemesanan_notif ))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi }}</span>
+                    @elseif(!empty($pemesanan_notif2 ))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi2 }}</span>
+
+                    @else
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;"></span>
+                    @endif
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownpro">
+                        <a href="{{ url('pembeli/riwayat_Beli') }}" class="dropdown-item">
+                            @if(!empty($notifikasi))
+                            <span class="badge badge-warning">{{$notifikasi}} Pesanan Belum Dibayar</span>
+                            @else
+                            <span class="badge badge-secondary">Tidak ada pesanan yang belum dibayar</span>
+                            @endif
+                        </a>
+                        <a href="{{ url('pembeli/riwayat_Beli') }}" class="dropdown-item">
+                            @if(!empty($notifikasi2))
+                            <span class="badge badge-danger">{{$notifikasi2}} Pesanan Dibatalkan</span>
+                            @else
+                            <span class="badge badge-secondary">Tidak ada pesanan yang dibatalkan</span>
+                            @endif
+                        </a>
+                    </div>
+            </li>
           <li><a href="#"> {{Session::get('nama')}}
         </a></li>
         <li class="book-a-table text-center"><a href="{{('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
@@ -92,7 +134,7 @@
             <div class="card" >
                 <div class="card-body">
                     <div class="container">
-                        <a href="{{ url('pembeli/riwayat_Beli') }}" class="btn_2"><i class="fas fa-arrow-left"></i> Kembali</a><br><br>
+                        <a href="{{ url('pembeli/riwayat_beli') }}" class="btn_2"><i class="fas fa-arrow-left"></i> Kembali</a><br><br>
 
                     <div class="row">
 
@@ -103,20 +145,20 @@
                                     <h3 style="color : green">Pemesanan Sukses</h3>
                                     <h5>Pemesanan anda sudah dicheck out selanjutnya untuk pembayaran silahkan transfer
                                     di rekening <strong>Bank BRI Nomer Rekening : <strong style="color: blue">
-                                    0165-0107-0111-508</strong> atas nama <strong style="color: blue">Dr. Ani</strong> </strong>
+                                    0165-0107-0111-508</strong> atas nama <strong style="color: blue">Zulfa</strong> </strong>
                                     dengan nominal : <strong style="color: blue">Rp. {{ number_format($total)}}</strong><br>
                                     </h5>
 
                                 </div>
                                 @elseif($pemesanan->status==2)
                                 <div class="card-body">
-                                    <h5 style="color : blue">Menunggu Konfirmasi dari pihak Apotek Enggal Sae</h5>
+                                    <h5 style="color : blue">Menunggu Konfirmasi dari pihak toko Batik Paoman</h5>
                                 </div>
                                 @elseif($pemesanan->status==3)
                                 <div class="card-body">
                                     <h3 style="color : green">Pembayaran Sukses</h3>
-                                    <h5>Bukti Pembayaran sudah di konfirmasi, Silahkan ambil pemesanan obat pada Apotek Enggal Sae
-                                    di<i class="fas fa-map-marker-alt"></i><strong style="color: blue"> Jalan Raya Jatibarang (Apotek Enggal Sae)</strong>
+                                    <h5>Bukti Pembayaran sudah di konfirmasi, Silahkan ambil pemesanan produk batik pada toko Batik Paoman
+                                    di<i class="fas fa-map-marker-alt"></i><strong style="color: blue"> Jalan Raya Paoman Sindang Indramayu</strong>
                                 </div>
                                 @elseif($pemesanan->status==4)
                                 <div class="card-body">
@@ -155,18 +197,20 @@
                                         <?php
                                             $no = 1;
                                         ?>
-                                        @foreach($pms as $pms)
+                                        @foreach($keranjang as $keranjang)
                                             <tr>
                                                 <td>{{ $no++ }}</td>
-                                                <td>{{$pms->produk->nama}}</td>
-                                                <td>{{$pms->keranjang->qty}}</td>
-                                                <td>Rp {{number_format($pms->keranjang->jumlah_harga)}}</td>
+                                                <td><img src="{{ url('/assets/img/produk/'.$keranjang->produk->foto) }}" class="rounded mx-auto d-block img-fluid" ></td>
+                                                <td>{{$keranjang->produk->nama}}</td>
+                                                <td>{{$keranjang->qty}}</td>
+                                                <td>{{$keranjang->produk->harga}}</td>
+                                                <td>Rp {{number_format($keranjang->jumlah_harga)}}</td>
                                             </tr>
                                         @endforeach
                                             <tr class="mt-3">
                                                 <td><a href="{{url ('/pembeli/cetak_pdf')}}/{{$pemesanan->id}}" class="btn btn-primary"><i class="fas fa-file-pdf"></i> PDF</a></td>
                                                 <td colspan="4" align="right"><i class="fas fa-coins"></i> Total Yang Harus Di Bayar :</td>
-                                                <td>Rp</td>
+                                                <td>Rp.{{number_format($total)}}</td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -191,7 +235,7 @@
                                     <tr>
                                         <td><strong>Bukti Pembayaran</strong></td>
                                         <td>:</td>
-                                        <td><input type="file" id="bukti_tf" name="bukti_tf" class="form-control-file" required></td>
+                                        <td><input type="file" id="foto" name="foto" class="form-control-file" required></td>
                                     </tr>
                                 </table>
                                 <div class="col-12 float-right" align="right">
@@ -209,7 +253,7 @@
                                         <tr>
                                             <td><i class="fas fa-calendar-plus"></i> Tanggal Pembelian</td>
                                             <td>:</td>
-                                            <td>{{ $pemesanan->waktu}}</td>
+                                            <td>{{ $pemesanan->tanggal}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -220,7 +264,7 @@
                                         <tr>
                                             <td><i class="fas fa-calendar-plus"></i> Tanggal Pembelian</td>
                                             <td>:</td>
-                                            <td>{{ $pemesanan->waktu}}</td>
+                                            <td>{{ $pemesanan->tanggal}}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -231,7 +275,7 @@
                                         <tr>
                                             <td><i class="fas fa-calendar-plus"></i> Tanggal Pembelian</td>
                                             <td>:</td>
-                                            <td>{{ $pemesanan->waktu}}</td>
+                                            <td>{{ $pemesanan->tanggal}}</td>
                                             <td>
                                                 <p></p>
                                             </td>
@@ -246,11 +290,11 @@
                                         <tr>
                                             <td><i class="fas fa-calendar-plus"></i> Tanggal Pembelian</td>
                                             <td>:</td>
-                                            <td>{{ $pemesanan->waktu}}</td>
+                                            <td>{{ $pemesanan->tanggal}}</td>
                                         </tr>
                                     </table>
                                     <p>Pemesanan Produk Di Batalkan dikarenakan belum membayar atau melakukan konfirmasi kepada pihak
-                                    Apotek Enggal Sae sampai tanggal <strong style="color: red">{{ $pemesanan->waktu }}</strong></p>
+                                    Toko Batik Paoman <strong style="color: red">{{ $pemesanan->tanggal }}</strong></p>
                                 </div>
                                 @endif
 

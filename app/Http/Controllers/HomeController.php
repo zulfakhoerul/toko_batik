@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        //$produk = Produk::all();
-        //return view('', compact());
+        $produk = Produk::all();
+        return view('layout.belanja', compact('produk'));
     }
 }

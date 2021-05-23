@@ -48,10 +48,10 @@
           <li class="active"><a href="{{url('pembeli/DashboardPembeli')}}">Pemesanan Batik</a></li>
           <li>
             <?php
-            $pesanan_utama = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->first();
+            $pesanan_utama = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',0)->first();
             if(!empty($pesanan_utama))
             {
-                $notif = \App\Keranjang::where('pembeli_id', Session::get('id'))->where('status',0)->count();
+                $notif = \App\Keranjang::where('pemesanan_id', $pesanan_utama->id)->count();
             }
 
             ?>
@@ -61,7 +61,49 @@
                 @endif
             </a>
           </li>
-          <li><a href="{{url('pembeli/riwayat_beli')}}"><i class="fas fa-bell"></i></a></li>
+          <li>
+            <?php
+            $pemesanan_notif = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',1)->first();
+            $pemesanan_notif2 = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status',5)->first();
+
+            if(!empty($pemesanan_notif))
+            {
+                $notifikasi = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status', $pemesanan_notif->status)->count();
+            }
+            if(!empty($pemesanan_notif2))
+            {
+                $notifikasi2 = \App\Pemesanan::where('pembeli_id', Session::get('id'))->where('status', $pemesanan_notif2->status)->count();
+            }
+            ?>
+                <a href="{{ url('pembeli/riwayat_beli') }}" class="nav-link"><i class="fas fa-bell"></i>
+                    @if(!empty($pemesanan_notif && $pemesanan_notif2))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi + $notifikasi2}}</span>
+                    @elseif(!empty($pemesanan_notif ))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi }}</span>
+                    @elseif(!empty($pemesanan_notif2 ))
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;">{{ $notifikasi2 }}</span>
+
+                    @else
+                    <span class="badge badge-danger align-top" style="font-size: 10px; margin-left:-8px; margin-top:-13px; border-radius:100px; padding:5px;"></span>
+                    @endif
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownpro">
+                        <a href="{{ url('pembeli/riwayat_Beli') }}" class="dropdown-item">
+                            @if(!empty($notifikasi))
+                            <span class="badge badge-warning">{{$notifikasi}} Pesanan Belum Dibayar</span>
+                            @else
+                            <span class="badge badge-secondary">Tidak ada pesanan yang belum dibayar</span>
+                            @endif
+                        </a>
+                        <a href="{{ url('pembeli/riwayat_Beli') }}" class="dropdown-item">
+                            @if(!empty($notifikasi2))
+                            <span class="badge badge-danger">{{$notifikasi2}} Pesanan Dibatalkan</span>
+                            @else
+                            <span class="badge badge-secondary">Tidak ada pesanan yang dibatalkan</span>
+                            @endif
+                        </a>
+                    </div>
+                </li>
           <li><a href="#"> {{Session::get('nama')}}
         </a></li>
         <li class="book-a-table text-center"><a href="{{('/logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>

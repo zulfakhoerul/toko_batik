@@ -29,6 +29,9 @@ Route::get('/daftar', function () {
     return view('layout.daftar');
 });
 
+Route::get('/belanja', 'HomeController@index');
+
+
 //======================Akun Pembeli============
 Route::get('/pembeli/DashboardPembeli', 'PembeliController@index');
 Route::get('/index', 'PembeliController@loginPage');
@@ -47,6 +50,7 @@ Route::delete('/pembeli/keranjang/{id}', 'PembelianController@deleteKeranjang');
 Route::post('/add-konfirmasi/{id}', 'PembelianController@konfirmasi');
 Route::get('/pembeli/riwayat_beli', 'PembelianController@tampilRiwayat');
 Route::get('history/{id}', 'PembelianController@riwayatDetail');
+Route::post('buktiTf/{id}', 'PembelianController@buktiTf');
 
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
