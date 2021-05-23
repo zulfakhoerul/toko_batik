@@ -26,11 +26,18 @@ class PembayaranController extends Controller
         if($request->has('diterima')){
             $payment->update(['status' => 'diterima']);
             Pemesanan::where('id', $payment->pemesanan_id)->update(['status' => 'sedang dikirim']);
-            Penjualan::create([
-                'pemesanan_id' => $payment->pemesanan_id,
-                'tanggal'      => date('Y-m-d'),
-                'pendapatan'   => $payment->pemesanan->total_harga,
-            ]);
+            //dd(Penjualan::where('tanggal', date('Y-m-d'))->exists());
+            if(Penjualan::where('tanggal', date('Y-m-d'))->exists() == TRUE){
+                $penjualan = Penjualan::where('tanggal', date('Y-m-d'))->first();
+                $sum = $penjualan->pendapatan + $payment->pemesanan->total_harga;
+                Penjualan::whereId($penjualan->id)->update(['pendapatan' => $sum]);
+            }else{
+                Penjualan::create([
+                    'pemesanan_id' => $payment->pemesanan_id,
+                    'tanggal'      => date('Y-m-d'),
+                    'pendapatan'   => $payment->pemesanan->total_harga,
+                ]);
+            }
         }else if($request->has('ditolak')){
             $payment->update(['status' => 'ditolak']);
             Pemesanan::whereId($payment->pemesanan_id)->update(['status' => 'ditolak']);

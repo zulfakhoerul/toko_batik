@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
             return "<?= \Carbon\Carbon::parse($param)->translatedFormat('d F Y'); ?>";
         });
         
+        Blade::directive('month', function ($param) {
+            return "<?= \Carbon\Carbon::parse($param)->translatedFormat('F Y'); ?>";
+        });
+
         //mata uang
         Blade::directive('currency', function($exp){
             return "Rp. <?= number_format($exp, 0, ',', '.'); ?>";

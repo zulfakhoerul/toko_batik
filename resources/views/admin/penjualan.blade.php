@@ -1,6 +1,6 @@
 @extends('admin.template')
 
-@section('title', 'Pemesanan')
+@section('title', 'Penjualan')
     
 @section('content')
 
@@ -57,12 +57,12 @@
                             </thead>
                             <tbody>
                                 @foreach ($datas as $data)
-                                <tr>
-                                    <td>{{++$i}}</th>
-                                    <td>{{$data->pemesanan_id}}</td>
-                                    <td>{{$data->pendapatan}}</td>
-                                    <td>{{$data->tanggal}}</td>
-                                </tr>
+                                    <tr>
+                                        <td>{{++$i}}</th>
+                                        <td>{{$data->pemesanan_id}}</td>
+                                        <td>@currency($data->pendapatan)</td>
+                                        <td>@month($data->tanggal)</td>
+                                    </tr>
                                 @endforeach 
                             </tbody>
                         </table>

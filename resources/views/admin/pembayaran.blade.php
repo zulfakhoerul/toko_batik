@@ -54,7 +54,7 @@
                                     <th style="width: 1%">Jumlah</th>
                                     <th style="width: 1%">total harga</th>
                                     <th style="width: 1%">Nama Pembeli</th>
-                                    <th style="width: 1%">Tanggal</th>
+                                    <th style="width: 1%">Bulan</th>
                                     <th style="width: 1%">Metode</th>
                                     <th style="width: 1%">Foto</th>
                                     <th>Aksi</th>
@@ -76,8 +76,7 @@
                                             
                                             <img class="mx-auto d-block img-responsive" 
                                                 width="135px" height="120px" 
-                                                src="{{ url('/assets/img/'.$payment->foto) }}" 
-                                                alt="payment">
+                                                src="{{ url('/assets/img/'.$payment->foto) }}">
                                         </a>
                                     </td>
                                     <td>
