@@ -73,46 +73,21 @@
         </div>
 
         <div class="row mt-5">
-
+            @foreach ($produk as $produk)
           <div class="col-lg-4">
             <div class="box" style="height: 450px">
                 <center>
-                <img src="assets/img/produk/kembang-pete.jpg"  alt="" style="width: 290px" height="165px">
+                <img src="{{ url('/assets/img/produk/'.$produk->foto) }}"  alt="" style="width: 290px" height="165px">
             </center>
-              <h4>Kain Batik Kembang Pete</h4>
-              <p><i class="fas fa-coins"></i> Rp. 150.000</p>
+                <h4>{{ $produk->tipe }} {{$produk->nama}}</h4>
+                <p>{{ $produk->deskripsi }}</p>
+                <p><i class="fas fa-coins"></i> Rp. {{ $produk->harga }}</p>
             <center>
-                <button class="btn btn-warning mt-5"><i class="fa fa-shopping-cart"> Pesan</i></button>
+                <a href="{{ url('login') }}" class="btn btn-warning mt-5"><i class="fa fa-shopping-cart"> Pesan</i></a>
             </center>
             </div>
           </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="box" style="height: 450px">
-                <center>
-                <img src="assets/img/produk/kembang-suket.jpeg" alt="" style="width: 290px" height="165px">
-            </center>
-              <h4>Kain batik Kembang Suket</h4>
-              <p><i class="fas fa-coins"></i> Rp. 150.000</p>
-            <center>
-                <button class="btn btn-warning mt-5"><i class="fa fa-shopping-cart"> Pesan</i></button>
-            </center>
-            </div>
-          </div>
-
-          <div class="col-lg-4 mt-4 mt-lg-0">
-            <div class="box" style="height: 450px">
-                <center>
-                <img src="assets/img/produk/batik lasem.jpg" alt="" style="width: 290px" height="165px">
-            </center>
-              <h4>Kain batik Lasem</h4>
-              <p><i class="fas fa-coins"></i> Rp. 150.000</p>
-            <center>
-                <button class="btn btn-warning mt-5"><i class="fa fa-shopping-cart"> Pesan</i></button>
-            </center>
-            </div>
-          </div>
-
+          @endforeach
         </div>
 
       </div>

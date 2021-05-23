@@ -9,7 +9,7 @@ class Keranjang extends Model
     protected $table = 'keranjang';
 
     protected $fillable = [
-        'pembeli_id',
+        'pemesanan_id',
         'produk_id',
         'qty',
         'jumlah_harga',
@@ -20,7 +20,8 @@ class Keranjang extends Model
         return $this->belongsTo(Produk::class,'produk_id');
     }
 
-    public function pembeli() {
-        return $this->belongsTo(Pembeli::class,'pembeli_id');
+    public function Pemesanan() {
+        return $this->belongsTo(Pemesanan::class,'pemesanan_id');
     }
+
 }

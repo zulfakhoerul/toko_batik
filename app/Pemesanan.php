@@ -9,14 +9,17 @@ class Pemesanan extends Model
     protected $table = 'pemesanan';
 
     protected $fillable = [
-        'keranjang_id',
+        'pembeli_id',
         'tanggal',
+        'metode_pembayaran',
+        'no_hp',
         'status',
         'total_harga'
     ];
 
-    public function keranjang(){
-        return $this->hasOne('App\Keranjang', 'id');
+
+    public function pembeli() {
+        return $this->belongsTo(Pembeli::class,'pembeli_id');
     }
 
 }
