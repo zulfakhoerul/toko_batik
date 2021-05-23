@@ -40,7 +40,6 @@ Route::get('/registerPage', 'PembeliController@registerPage');
 Route::post('/registerPembeli', 'PembeliController@registerPembeli');
 Route::get('/logout', 'PembeliController@logout');
 
-//==================Pemesanan Batik==============
 Route::get('/pembeli/DashboardPembeli', 'PembelianController@index');
 Route::get('/pembeli/detail_produk{id}', 'PembelianController@detail');
 Route::get('/pembeli/DashboardPembeli/cari', 'PembelianController@cari');
@@ -53,6 +52,7 @@ Route::get('history/{id}', 'PembelianController@riwayatDetail');
 Route::post('buktiTf/{id}', 'PembelianController@buktiTf');
 Route::get('/pembeli/cetak_pdf/{id}', 'PembelianController@cetak_pdf');
 
+//================== Admin ==============
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('/data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
@@ -60,4 +60,17 @@ Route::group(['prefix' => 'admin'], function () {
     Route::put('/ubah-status-pembayaran/{id}', 'PembayaranController@update')->name('updateStatusPembayaran');
     Route::get('/test', 'PenjualanController@index');
     Route::get('/data-penjualan', 'PenjualanController@index')->name('dataPenjualan');
+    Route::view('login','admin.login');
+
+    Route::post('login', 'AkunAdminController@login')->name('admin.login');
+
+    Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::get('data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
+    Route::get('data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');
+
+    Route::resource('produk', 'AdminProdukController');
+
+    Route::put('ubah-status-pembayaran/{id}', 'PembayaranController@update')->name('updateStatusPembayaran');
+    Route::get('test', 'PenjualanController@index');
+    Route::get('data-penjualan', 'PenjualanController@index')->name('dataPenjualan');
 });
