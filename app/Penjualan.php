@@ -15,6 +15,6 @@ class Penjualan extends Model
     ];
 
     public function pemesanan(){
-        return $this->hasOne('App\Pemesanan', 'id');
+        return $this->belongsTo('App\Pemesanan', 'id');
     }
 }

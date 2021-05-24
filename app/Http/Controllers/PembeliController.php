@@ -12,13 +12,10 @@ class PembeliController extends Controller
 {
     public function index(){
         if(!Session::get('login')){
-        alert()->error('Kamu harus login dulu', 'Gagal');
-
+            alert()->error('Kamu harus login dulu', 'Gagal');
             return redirect('/login');
-
         }
         else{
-
             return view('/pembeli/DashboardPembeli');
         }
     }

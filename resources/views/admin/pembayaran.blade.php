@@ -49,14 +49,14 @@
                         <table class="table align-items-center table-flush" id="dataTable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="width: 1%">No</th>
-                                    <th style="width: 30%">Nama Produk</th>
-                                    <th style="width: 1%">Jumlah</th>
-                                    <th style="width: 1%">total harga</th>
-                                    <th style="width: 1%">Nama Pembeli</th>
-                                    <th style="width: 1%">Bulan</th>
-                                    <th style="width: 1%">Metode</th>
-                                    <th style="width: 1%">Foto</th>
+                                    <th>No</th>
+                                    <th>Nama Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>total harga</th>
+                                    <th>Nama Pembeli</th>
+                                    <th>Tanggal</th>
+                                    <th>Metode</th>
+                                    <th>Foto</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -64,23 +64,23 @@
                                 @forelse ($payments as $payment)
                                 <tr>
                                     <td>{{++$i}}</td>
-                                    <td>{{$payment->pemesanan->keranjang->produk->nama}}</td>
-                                    <td>{{$payment->pemesanan->keranjang->qty}}</td>
-                                    <td>@currency($payment->pemesanan->total_harga)</td>
-                                    <td>{{$payment->pemesanan->keranjang->pembeli->nama}}</td>
+                                    <td>{{$payment->nama}}</td>
+                                    <td>{{$payment->qty}}</td>
+                                    <td>@currency($payment->total_harga)</td>
+                                    <td>{{$payment->nama_pembeli}}</td>
                                     <td>@date($payment->tanggal)</td>
-                                    <td>{{$payment->metode}}</td>
+                                    <td>@if($payment->metode_pembayaran) Transfer @else Bayar Ditempat @endif</td>
                                     <td>
                                         <a class="fancybox-effects-a" 
-                                            href="{{ url('/assets/img/'.$payment->foto) }}">
+                                            href="{{ url('bukti_tf/'.$payment->foto) }}">
                                             
                                             <img class="mx-auto d-block img-responsive" 
                                                 width="135px" height="120px" 
-                                                src="{{ url('/assets/img/'.$payment->foto) }}">
+                                                src="{{ url('bukti_tf/'.$payment->foto) }}">
                                         </a>
                                     </td>
                                     <td>
-                                        @if($payment->status == 'diproses')
+                                        @if($payment->status != 4 && $payment->status != 5)
                                             <form action="{{route('updateStatusPembayaran', $payment->id)}}" 
                                                 method="POST">
                                                 @csrf
@@ -89,11 +89,15 @@
                                                     Diterima
                                                 </button>
                                                 <button class="btn btn-danger" name="ditolak" type="submit">
-                                                    Ditolak
+                                                    Dibatalkan
                                                 </button>
                                           </form>
                                         @else
-                                            {{$payment->status}}
+                                            @if($payment->status == 4)
+                                                Diterima
+                                            @elseif($payment->status == 5)
+                                                Dibatalkan
+                                            @endif    
                                         @endif
                                     </td>
                                 </tr>
