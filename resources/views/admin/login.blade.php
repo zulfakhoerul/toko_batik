@@ -18,15 +18,15 @@
   <link href="{{url('fontawesome-free/css/all.min.css')}}" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/icofont/icofont.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/venobox/venobox.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/icofont/icofont.min.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/venobox/venobox.css') }}" rel="stylesheet">
+  <link href="{{ url('/assets/vendor/owl.carousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="{{ asset('assets/css/style.css" rel="stylesheet') }}">
+  <link href="{{ url('/assets/css/style.css" rel="stylesheet') }}">
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 </head>
@@ -53,9 +53,6 @@
                       <div class="form-group">
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                       </div>
-                      <div class="form-group text-right">
-                          <p>Belum punya akun ? <a href="{{url('daftar')}}"> Daftar</a></p>
-                      </div>
                       <div class="form-group text-center mt-3">
                         <input type="submit" class="btn btn-warning btn-block" value="Login">
                       </div>
@@ -73,16 +70,16 @@
 
   @include('sweet::alert')
   <!-- Vendor JS Files -->
-  <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/jquery.easing/jquery.easing.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
-  <script src="{{ asset('assets/vendor/jquery-sticky/jquery.sticky.js') }}"></script>
-  <script src="{{ asset('assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/venobox/venobox.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/owl.carousel/owl.carousel.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/jquery/jquery.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/jquery.easing/jquery.easing.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ url('/assets/vendor/jquery-sticky/jquery.sticky.js') }}"></script>
+  <script src="{{ url('/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/venobox/venobox.min.js') }}"></script>
+  <script src="{{ url('/assets/vendor/owl.carousel/owl.carousel.min.js') }}"></script>
   <!-- Template Main JS File -->
-  <script src="{{ asset('assets/js/main.js') }}"></script>
+  <script src="{{ url('/assets/js/main.js') }}"></script>
 
 </body>
 </html>

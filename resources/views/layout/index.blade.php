@@ -34,18 +34,17 @@
     <div class="container d-flex align-items-center">
 
       <div class="logo mr-auto">
-        <h1 class="text-light"><a href="index.html"><span>Batik Paoman</span></a></h1>
+        <h1 class="text-light"><a href="/"><span>Batik Paoman</span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav class="nav-menu d-none d-lg-block">
         <ul>
-          <li class="active"><a href="index.html">Beranda</a></li>
+          <li class="active"><a href="/">Beranda</a></li>
           <li><a href="#about">Tentang</a></li>
           <li><a href="#jenis">Produk</a></li>
           <li><a href="#gallery">Galeri</a></li>
-          <li><a href="#testi">Testimoni</a></li>
 
           <li class="book-a-table text-center"><a href="{{url('login')}}">Login</a></li>
         </ul>

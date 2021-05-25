@@ -23,12 +23,18 @@ class AdminProdukController extends Controller
 
     public function store(Request $request)
     {
+        $file           = $request->file('foto');
+        $nama_file      = $file->getClientOriginalName();
+        $tujuan_upload  = public_path('/assets/img/produk');
+        $file->move($tujuan_upload,$nama_file);
+
         Produk::create([
             "nama" => $request->nama,
             "deskripsi" => $request->deskripsi,
             "tipe" => $request->tipe,
             "stok" => $request->stok,
-            "harga" => $request->harga
+            "harga" => $request->harga,
+            "foto" => $nama_file
         ]);
 
         return redirect()->route('produk.index');
@@ -60,12 +66,24 @@ class AdminProdukController extends Controller
 
     public function update(Request $request, Produk $produk)
     {
+        if(empty($request->foto)){
+            $produk->foto = $produk->foto;
+        }
+        else{
+            $path = '/assets/img/produk';
+            unlink($path. $produk->foto); //menghapus file lama
+            $file         = $request->file('foto'); // menyimpan data gambar yang diupload ke variabel $file
+            $produk->foto = $file->getClientOriginalName();
+            $file->move($path, $produk->foto); // isi dengan nama folder tempat kemana file diupload
+        }
+
         $produk->update([
             "nama" => $request->nama,
             "deskripsi" => $request->deskripsi,
             "tipe" => $request->tipe,
             "stok" => $request->stok,
-            "harga" => $request->harga
+            "harga" => $request->harga,
+            "foto" => $produk->foto
         ]);
 
         return redirect()->route('produk.index');

@@ -30,7 +30,7 @@ class PembeliController extends Controller
         $data = Pembeli::where('email',$email)->first();
         if($data){ //apakah email tersebut ada atau tidak
             if(Hash::check($password,$data->password)){
-                Session::put('nama',$data->nama);
+                Session::put('nama',$data->nama_pembeli);
                 Session::put('email',$data->email);
                 Session::put('id',$data->id);
                 Session::put('login',TRUE);

@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-8">
             <div class="card mb-4">
-                <form action="{{route('produk.store')}}" method="POST">
+                <form action="{{route('produk.store')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="form-group row">
@@ -45,6 +45,12 @@
                             <label for="nama" class="col-sm-3 col-form-label">Harga</label>
                             <div class="col-sm-9">
                                 <input type="number" class="form-control" name="harga"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="nama" class="col-sm-3 col-form-label">Foto</label>
+                            <div class="col-sm-9">
+                                <input type="file" class="form-control" name="foto"/>
                             </div>
                         </div>
                     </div>
