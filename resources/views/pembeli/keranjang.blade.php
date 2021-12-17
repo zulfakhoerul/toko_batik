@@ -55,14 +55,24 @@
                                                 </tr>
 
                                                 <tr class="mt-3">
-                                                    <td colspan="5" align="right"><i class="fas fa-coins"></i> Total Harga</td>
-                                                    <td><b>Rp.{{number_format($total)}}</b></td>
+                                                    <td colspan="5" align="right"><i class="fas fa-coins"></i> Subtotal barang: </td>
+                                                    <td><b>{{$total}}</b></td>
+                                                </tr>
+                                                <input type="hidden" id="subtotal" value="{{$total}}">
+                                                <tr class="mt-3">
+                                                    <td colspan="5" align="right"><i class="fas fa-coins"></i> Subtotal ongkos kirim: </td>
+                                                    <td><span id="ongkir"></b></td>
                                                 </tr>
 
+                                                <tr class="mt-3">
+                                                    <td colspan="5" align="right"><i class="fas fa-coins"></i> Total Harga</td>
+                                                    <td><input class="form-control" type="text" id="total" ReadOnly></td>
+                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                         @else
-                                        Tidak Ada Obat Yang Masuk Keranjang
+                                        Tidak Ada Yang Masuk Keranjang
                                         @endif
 
                                 </div>
@@ -77,13 +87,11 @@
                                     @csrf
                                     <table class="table ">
                                         <tr>
-                                            <td><strong>Nama Pembeli</strong></td>
-                                            <td>:</td>
+                                            <td><strong>Nama Pembeli: </strong></td>
                                             <td><input class="form-control" type="text"  value="{{Session::get('nama')}} " ReadOnly></td>
                                         </tr>
                                         <tr>
                                             <td><strong>Pilih Metode Pembayaran</strong></td>
-                                            <td>:</td>
                                             <td>
                                                 <div class="form-group row">
                                                     <div class="col-md-12">
@@ -98,8 +106,36 @@
                                         </tr>
                                         <tr>
                                             <td><strong>No HP</strong></td>
-                                            <td>:</td>
+                                            
                                             <td><input class="form-control" type="number" name="no_hp" value="{{$pemesanan->pembeli->no_hp}}" required><small>*Isi dengan Nomor Handphone yang masih aktif</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kota tujuan</td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    
+                                                    <select type="text" class="form-control" id="destination" name="destination">
+                                                        <option value="">Pilih Kota Tujuan</option>
+                                                        @foreach ($cities as $city)
+                                                            <option value="{{ $city->id_kota }}">
+                                                                {{ $city->tipe }} - {{ $city->nama_kota }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Alamat Lengkap Pengiriman</td>
+                                            <td>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-12">
+                                                        <textarea name="full_address" class="form-control" 
+                                                            id="full_address"></textarea>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
                                     <div class="col-12 float-right" align="right">

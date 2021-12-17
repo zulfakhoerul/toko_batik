@@ -31,20 +31,25 @@ class PembayaranController extends Controller
 
     public function update(Request $request, $id)
     {
-        $payment = Pembayaran::find('id', $id);
+        $payment = DB::table('pembayaran')->join('pemesanan', 'pemesanan.id', 'pembayaran.pemesanan_id')
+                        ->where('pembayaran.id', $id)->first();
+        //dd($payment);
         if($request->has('diterima')){
-            $payment->update(['status' => '4']);
+            Pembayaran::where('id',$id)->update([
+                'status' => '4'
+            ]);
             Pemesanan::where('id', $payment->pemesanan_id)->update(['status' => 4]);
             //dd(Penjualan::where('tanggal', date('Y-m-d'))->exists());
             if(Penjualan::whereYear('tanggal', date('Y'))->whereMonth('tanggal', date('m'))->exists() == TRUE){
                 $penjualan = Penjualan::where('tanggal', date('Y-m-d'))->first();
+                dd($payment);
                 $sum = $penjualan->pendapatan + $payment->pemesanan->total_harga;
                 Penjualan::whereId($penjualan->id)->update(['pendapatan' => $sum]);
             }else{
                 Penjualan::create([
                     'pemesanan_id' => $payment->pemesanan_id,
                     'tanggal'      => date('Y-m-d'),
-                    'pendapatan'   => $payment->pemesanan->total_harga,
+                    'pendapatan'   => $payment->total_harga,
                 ]);
             }
         }else if($request->has('ditolak')){
@@ -52,5 +57,6 @@ class PembayaranController extends Controller
             Pemesanan::whereId($payment->pemesanan_id)->update(['status' => 5]);
         }
         return redirect()->back()->with('success', 'Status berhasil diubah');
+        
     }
 }

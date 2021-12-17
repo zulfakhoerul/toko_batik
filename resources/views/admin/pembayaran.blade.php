@@ -52,11 +52,11 @@
                                     <th>No</th>
                                     <th>Nama Produk</th>
                                     <th>Jumlah</th>
-                                    <th>total harga</th>
+                                    <th>Total Harga</th>
                                     <th>Nama Pembeli</th>
                                     <th>Tanggal</th>
                                     <th>Metode</th>
-                                    <th>Foto</th>
+                                    <th>Bukti TF</th>
                                     <th>Aksi</th>
                                 </tr>
                             </thead>
@@ -80,7 +80,7 @@
                                         </a>
                                     </td>
                                     <td>
-                                        @if($payment->status != 4 && $payment->status != 5)
+                                        @if(!in_array([4, 5], $payment->status))
                                             <form action="{{route('updateStatusPembayaran', $payment->id)}}" 
                                                 method="POST">
                                                 @csrf

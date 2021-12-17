@@ -13,6 +13,7 @@ class Pembayaran extends Model
         'metode',
         'foto',
         'tanggal',
+        'no_resi',
         'status'
     ];
 

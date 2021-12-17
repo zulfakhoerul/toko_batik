@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Kota;
 use App\Keranjang;
 use App\Pembayaran;
 use App\Pembeli;
@@ -108,7 +109,8 @@ class PembelianController extends Controller
             $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
             $keranjang = Keranjang::where('pemesanan_id', $pemesanan->id)->get();
             $total = Keranjang::where('pemesanan_id', $pemesanan->id)->sum('jumlah_harga');
-            return view('pembeli/keranjang', compact('pemesanan', 'keranjang', 'total'));
+            $cities = Kota::all();
+            return view('pembeli/keranjang', compact('pemesanan', 'keranjang', 'total', 'cities'));
         }
         return view('pembeli/keranjang', compact('pemesanan', 'produk', 'pembeli'));
     }
@@ -126,7 +128,7 @@ class PembelianController extends Controller
     {
         $pemesanan = Pemesanan::where('pembeli_id', Session::get('id'))->where('status', 0)->first();
         $keranjang = Keranjang::where('pemesanan_id', $id)->get();
-        $total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
+        //$total = Keranjang::where('pemesanan_id', $id)->sum('jumlah_harga');
 
         $pemesanan_id = $id;
 
@@ -139,7 +141,7 @@ class PembelianController extends Controller
         }
         $pemesanan->tanggal = Carbon::now();
         $pemesanan->no_hp = $request->no_hp;
-        $pemesanan->total_harga = $total;
+        $pemesanan->total_harga = $request->total;
         $pemesanan->update();
 
         $keranjang = Keranjang::where('pemesanan_id', $pemesanan_id)->get();

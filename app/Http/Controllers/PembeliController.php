@@ -63,7 +63,6 @@ class PembeliController extends Controller
         $this->validate($request, [
             'nama' => 'required|min:4',
             'no_hp' => 'required|min:4',
-            'alamat' => 'required|min:4',
             'email' => 'required|min:4',
             'password' => 'required',
             'confirmation' => 'required|same:password',
@@ -71,7 +70,6 @@ class PembeliController extends Controller
         ],[
             'nama.required' => 'Nama harus diisi dengan lengkap',
             'no_hp.required' => 'No HP harus diisi',
-            'alamat.required' => 'Alamat harus diisi',
             'email.required' => 'Email harus diisi',
             'password.required' => 'Password harus diisi',
             'confirmation.required' => 'Isi dengan password yang sama',
@@ -80,7 +78,7 @@ class PembeliController extends Controller
         $data =  new Pembeli();
         $data->nama = $request->nama;
         $data->no_hp = $request->no_hp;
-        $data->alamat = $request->alamat;
+        $data->alamat_lengkap = $request->alamat;
         $data->email = $request->email;
         $data->password = bcrypt($request->password);
 

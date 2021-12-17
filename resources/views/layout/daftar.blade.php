@@ -65,13 +65,26 @@
                         <input type="text" id="no_hp" name="no_hp" class="form-control" placeholder="No. Hp">
                     </div>
                     <div class="form-group">
-                        <textarea type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat"></textarea>
-                    </div>
-                    <div class="form-group">
                         <input type="text" id="email" name="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="form-group">
-                    <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                      <textarea type="text" id="alamat" name="alamat" class="form-control" placeholder="Alamat Lengkap"></textarea>
+                    </div>
+                    <div class="form-group row">
+                      <label for="" class="col-sm-3 col-form-label">Kota Anda: </label>
+                      <div class="col-sm-8">
+                          <select type="text" id="destination" name="destination">
+                              <option value="">Pilih Kota Tujuan</option>
+                              @foreach ($cities as $city)
+                                  <option value="{{ $city->city_id }}">
+                                      {{ $city->type }} - {{ $city->city_name }}
+                                  </option>
+                              @endforeach
+                          </select>
+                      </div>
+                  </div>
+                    <div class="form-group">
+                      <input type="password" id="password" name="password" class="form-control" placeholder="Password">
                     </div>
                     <div class="form-group">
                         <input type="password" id="confirmation" name="confirmation" class="form-control" placeholder="Confirmation Password">

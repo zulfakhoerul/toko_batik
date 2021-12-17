@@ -14,6 +14,7 @@
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css">
   <link href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,600,600i,700,700i|Satisfy|Comic+Neue:300,300i,400,400i,700,700i" rel="stylesheet">
   <link rel="stylesheet" href="{{url('fontawesome-free/css/all.min.css')}}">
 
@@ -160,6 +161,7 @@
 
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
   @include('sweet::alert')
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/jquery/jquery.min.js"></script>
@@ -173,6 +175,34 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+    <script>
+        /* $('#destination').selectize({
+            labelField: 'name',
+            searchField: ['name'],
+            placeholder: "Pilih Kota Tujuan",
+            delimiter: ","
+        }); */
+
+        $('select[name="destination"]').on('change', function(){
+            let city = $("select[name=destination]").val();
+            $.ajax({
+            url: "/destination=" + city,
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            type: 'GET',
+            dataType: 'json',
+            success: function(data){
+                var result = data.value;
+                console.log(result);
+                var subtotal = parseInt($('#subtotal').val());
+                console.log(subtotal);
+                $('#ongkir').html(result);
+                var total = subtotal + result;
+                $('#total').val(total);
+            }
+        });
+        });
+           
+    </script>
 
 </body>
 
