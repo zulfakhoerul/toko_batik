@@ -77,6 +77,4 @@
                 </div>
             </div>
         </div>    
-
-        <div style="margin-bottom: 290px"></div>
 @endsection
