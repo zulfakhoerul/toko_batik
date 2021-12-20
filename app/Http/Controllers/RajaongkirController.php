@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Http;
 class RajaOngkirController extends Controller
 {
     private $key;
-    private $api_url;
+    private $base_url;
     
     public function __construct()
     {
-        $this->api_url = 'https://api.rajaongkir.com/starter';
-        $this->key     = ['key' => env('RAJAONGKIR_KEY')];  
+        $this->base_url = env("RAJAONGKIR_BASE_URL");
+        $this->key      = ['key' => env('RAJAONGKIR_API_KEY')];  
 
     }
 
-    public function apiRajaOngkir()
+    public function store()
     {
-        $provinces      = Http::withHeaders($this->key)->get($this->api_url.'/province');
+        $provinces      = Http::withHeaders($this->key)->get($this->base_url.'province');
         $province_json  = $provinces->object()->rajaongkir->results;
         
         foreach($province_json as $province){
@@ -31,7 +31,7 @@ class RajaOngkirController extends Controller
                 'nama_provinsi' => $province->province
             ]);
             
-            $cities = Http::withHeaders($this->key)->get($this->api_url.'/city', [
+            $cities = Http::withHeaders($this->key)->get($this->base_url.'city', [
                 'province' => $province->province_id
             ]);
 
@@ -57,7 +57,7 @@ class RajaOngkirController extends Controller
     public function getCost($destination)
     {
         $data = [
-            'origin'        => '149',
+            'origin'        => env("RAJAONGKIR_ORIGIN"),
             'destination'   => $destination,
             'weight'        => '1000',
             'courier'       => 'jne'
@@ -65,7 +65,7 @@ class RajaOngkirController extends Controller
 
         $response = Http::asForm()
                         ->withHeaders($this->key)
-                        ->post($this->api_url.'/cost', $data);
+                        ->post($this->base_url.'cost', $data);
         
         $ongkir = $response['rajaongkir']['results'][0]['costs'][1]['cost'][0];
         return response()->json($ongkir);

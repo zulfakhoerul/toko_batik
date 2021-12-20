@@ -186,20 +186,20 @@
         $('select[name="destination"]').on('change', function(){
             let city = $("select[name=destination]").val();
             $.ajax({
-            url: "/destination=" + city,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-            type: 'GET',
-            dataType: 'json',
-            success: function(data){
-                var result = data.value;
-                console.log(result);
-                var subtotal = parseInt($('#subtotal').val());
-                console.log(subtotal);
-                $('#ongkir').html(result);
-                var total = subtotal + result;
-                $('#total').val(total);
-            }
-        });
+              url: "/rajaongkir/getCost/destination=" + city,
+              headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+              type: 'GET',
+              dataType: 'json',
+              success: function(data){
+                  var result = data.value;
+                  console.log(result);
+                  var subtotal = parseInt($('#subtotal').val());
+                  console.log(subtotal);
+                  $('#ongkir').html(result);
+                  var total = subtotal + result;
+                  $('#total').val(total);
+              }
+            });
         });
            
     </script>

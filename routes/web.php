@@ -17,9 +17,9 @@ Route::get('/', function () {
     return view('layout.index');
 });
 
-Route::get('/rajaongkir', 'RajaongkirController@apiRajaOngkir');
+Route::get('/rajaongkir/getProvinsi&kota', 'RajaongkirController@store');
 
-Route::get('/destination={destination}', 'RajaongkirController@getCost');
+Route::get('/rajaongkir/getCost/destination={destination}', 'RajaongkirController@getCost');
 
 Route::get('/belanja', function () {
     return view('layout.belanja');
