@@ -19,7 +19,7 @@ class Pemesanan extends Model
 
 
     public function pembeli() {
-        return $this->belongsTo(Pembeli::class, 'pembeli_id');
+        return $this->belongsTo(Pembeli::class,'pembeli_id');
     }
 
 }

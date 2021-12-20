@@ -10,9 +10,8 @@ class PemesananController extends Controller
 {
     public function index()
     {
-        $orders = Keranjang::with('pemesanan', 'produk')
-                    ->orderBy('id', 'desc')
-                    ->where('status', '!=', 5)
+        $orders = Pemesanan::orderBy('id', 'desc')
+                    ->where('status', '!=', 'ditolak')
                     ->get();
         return view('admin.pemesanan', compact('orders'))->with('i');
     }

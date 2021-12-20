@@ -9,7 +9,7 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        $datas = Penjualan::with('pemesanan')->get();
+        $datas = Penjualan::all();
         return view('admin.penjualan', compact('datas'))->with('i');
     }
 }

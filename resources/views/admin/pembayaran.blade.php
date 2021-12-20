@@ -64,19 +64,19 @@
                                 @forelse ($payments as $payment)
                                 <tr>
                                     <td>{{++$i}}</td>
-                                    <td>{{$payment->nama}}</td>
-                                    <td>{{$payment->qty}}</td>
-                                    <td>@currency($payment->total_harga)</td>
-                                    <td>{{$payment->nama_pembeli}}</td>
+                                    <td>{{$payment->pemesanan->keranjang->produk->nama}}</td>
+                                    <td>{{$payment->pemesanan->keranjang->qty}}</td>
+                                    <td>@currency($payment->pemesanan->total_harga)</td>
+                                    <td>{{$payment->pemesanan->keranjang->pembeli->nama}}</td>
                                     <td>@date($payment->tanggal)</td>
-                                    <td>@if($payment->metode_pembayaran) Transfer @else Bayar Ditempat @endif</td>
+                                    <td>{{$payment->metode}}</td>
                                     <td>
                                         <a class="fancybox-effects-a" 
-                                            href="{{ url('bukti_tf/'.$payment->foto) }}">
+                                            href="{{ url('/assets/img/'.$payment->foto) }}">
                                             
                                             <img class="mx-auto d-block img-responsive" 
                                                 width="135px" height="120px" 
-                                                src="{{ url('bukti_tf/'.$payment->foto) }}">
+                                                src="{{ url('/assets/img/'.$payment->foto) }}">
                                         </a>
                                     </td>
                                     <td>
@@ -89,15 +89,11 @@
                                                     Diterima
                                                 </button>
                                                 <button class="btn btn-danger" name="ditolak" type="submit">
-                                                    Dibatalkan
+                                                    Ditolak
                                                 </button>
                                           </form>
                                         @else
-                                            @if($payment->status == 4)
-                                                Diterima
-                                            @elseif($payment->status == 5)
-                                                Dibatalkan
-                                            @endif    
+                                            {{$payment->status}}
                                         @endif
                                     </td>
                                 </tr>

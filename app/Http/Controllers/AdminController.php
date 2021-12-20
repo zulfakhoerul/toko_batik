@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function dashboard()
-    {
+    public function dashboard(){
+        
         $pembeli    = Pembeli::count();
         $transaksi  = Pembayaran::where('status', '=', 4)->count();
         $pendapatan = Penjualan::value('pendapatan');

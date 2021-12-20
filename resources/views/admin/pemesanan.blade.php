@@ -32,16 +32,16 @@
                             </div>
                         @endif
                         @if($errors->any())
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{$error}}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                <li>{{$error}}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                         @endif
                     </div>
     
@@ -52,7 +52,7 @@
                                     <th>No</th>
                                     <th>Nama Produk</th>
                                     <th>Jumlah</th>
-                                    <th>Total harga</th>
+                                    <th>total harga</th>
                                     <th>Nama Pembeli</th>
                                     <th>Tanggal</th>
                                 </tr>
@@ -61,11 +61,11 @@
                                 @foreach ($orders as $order)
                                 <tr>
                                     <td>{{++$i}}</th>
-                                    <td>{{$order->produk->nama}}</td>
-                                    <td>{{$order->qty}}</td>
-                                    <td>@currency($order->jumlah_harga)</td>
-                                    <td>{{$order->pemesanan->pembeli->nama_pembeli}}</td>
-                                    <td>@date($order->pemesanan->tanggal)</td>
+                                    <td>{{$order->keranjang->produk->nama}}</td>
+                                    <td>{{$order->keranjang->qty}}</td>
+                                    <td>@currency($order->total_harga)</td>
+                                    <td>{{$order->keranjang->pembeli->nama}}</td>
+                                    <td>@date($order->tanggal)</td>
                                 </tr>
                                 @endforeach
                             </tbody>

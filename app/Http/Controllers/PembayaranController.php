@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DB;
 use App\Pemesanan;
 use App\Pembayaran;
 use App\Penjualan;
@@ -53,8 +52,8 @@ class PembayaranController extends Controller
                 ]);
             }
         }else if($request->has('ditolak')){
-            $payment->update(['status' => 5]);
-            Pemesanan::whereId($payment->pemesanan_id)->update(['status' => 5]);
+            $payment->update(['status' => 'ditolak']);
+            Pemesanan::whereId($payment->pemesanan_id)->update(['status' => 'ditolak']);
         }
         return redirect()->back()->with('success', 'Status berhasil diubah');
         

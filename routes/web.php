@@ -57,16 +57,24 @@ Route::post('buktiTf/{id}', 'PembelianController@buktiTf');
 Route::get('/pembeli/cetak_pdf/{id}', 'PembelianController@cetak_pdf');
 
 //================== Admin ==============
-Route::view('admin/login','admin.login')->name('login');
-Route::post('admin/login', 'AkunAdminController@login')->name('admin.login');
-Route::get('/admin/logout', 'AkunAdminController@logout')->name('admin.logout');
-Route::group(['prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
+Route::group(['prefix' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@dashboard')->name('dashboard');
     Route::get('/data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
     Route::get('/data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');
     Route::put('/ubah-status-pembayaran/{id}', 'PembayaranController@update')->name('updateStatusPembayaran');
     Route::get('/test', 'PenjualanController@index');
     Route::get('/data-penjualan', 'PenjualanController@index')->name('dataPenjualan');
-    
+    Route::view('login','admin.login');
+
+    Route::post('login', 'AkunAdminController@login')->name('admin.login');
+
+    Route::get('dashboard', 'AdminController@dashboard')->name('dashboard');
+    Route::get('data-pemesanan', 'PemesananController@index')->name('dataPemesanan');
+    Route::get('data-pembayaran', 'PembayaranController@index')->name('dataPembayaran');
+
     Route::resource('produk', 'AdminProdukController');
+
+    Route::put('ubah-status-pembayaran/{id}', 'PembayaranController@update')->name('updateStatusPembayaran');
+    Route::get('test', 'PenjualanController@index');
+    Route::get('data-penjualan', 'PenjualanController@index')->name('dataPenjualan');
 });
