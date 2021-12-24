@@ -14,8 +14,8 @@ class RajaOngkirController extends Controller
     
     public function __construct()
     {
-        $this->base_url = env("RAJAONGKIR_BASE_URL");
-        $this->key      = ['key' => env('RAJAONGKIR_API_KEY')];  
+        $this->base_url = config("rajaongkir.apiUrl");
+        $this->key      = [ 'key' => config('rajaongkir.apiKey') ];  
 
     }
 
@@ -57,7 +57,7 @@ class RajaOngkirController extends Controller
     public function getCost($destination)
     {
         $data = [
-            'origin'        => env("RAJAONGKIR_ORIGIN"),
+            'origin'        => config('rajaongkir.origin'),
             'destination'   => $destination,
             'weight'        => '1000',
             'courier'       => 'jne'
